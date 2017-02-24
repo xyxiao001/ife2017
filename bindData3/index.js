@@ -5,8 +5,10 @@
 // 主函数 保存数据
 function Observer(data, next) {
   // 传进来需要设置的data 返回一个经过重新设置的obj
-  this.data = data
   this.next = next ? true : false
+  if (!this.next) {
+    this.data = data
+  }
   this.setVal(data)
 }
 
@@ -76,3 +78,4 @@ app2.data.name.firstName = 'hahaha';
 // 输出：我的姓名发生了变化，可能是姓氏变了，也可能是名字变了。
 app2.data.name.lastName = 'blablabla';
 // 输出：我的姓名发生了变化，可能是姓氏变了，也可能是名字变了。
+console.log(app2)

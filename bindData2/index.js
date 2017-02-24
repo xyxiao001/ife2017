@@ -5,8 +5,10 @@
 // 主函数 保存数据
 function Observer(data, next) {
   // 传进来需要设置的data 返回一个经过重新设置的obj
-  this.data = data
   this.next = next ? true : false
+  if (!this.next) {
+    this.data = data
+  }
   this.setVal(data)
 }
 
