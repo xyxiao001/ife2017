@@ -6,14 +6,14 @@
 // 主函数 保存数据
 function Observer(data, next) {
   // 传进来需要设置的data 返回一个经过重新设置的obj
-  this.next = next ? true : false
-  if (!this.next) {
+  var n = next ? true : false
+  if (!n) {
     this.data = data
   }
-  this.setVal(data)
+  this.setVal(data, n)
 }
 
-Observer.prototype.setVal = function (obj) {
+Observer.prototype.setVal = function (obj, n) {
   // 设置值
   let i, v
   for (i in obj) {
@@ -26,22 +26,26 @@ Observer.prototype.setVal = function (obj) {
       }
 
       // 绑定对象get set
-      this.bindSet(i, v)
+      this.bindSet(i, v, n)
     }
   }
 }
 
-Observer.prototype.bindSet = function (i, v) {
+Observer.prototype.bindSet = function (i, v, n) {
   var o;
-  o = !this.next ? this.data : this
+  o = !n ? this.data : this
   Object.defineProperty(o, i, {
+    // 是否可以被循环枚举出来
+    enumerable: true,
+    // 是否可配置
+    configurable: true,
     get: function () {
-      console.log('你访问了' + i)
+      //console.log('你访问了' + i)
       return v
     },
     set: function (newVal) {
-      console.log('你设置了' + i)
-      console.log('新的' + i + ' = ' + newVal)
+      //console.log('你设置了' + i)
+      //console.log('新的' + i + ' = ' + newVal)
       if (typeof newVal === 'object') {
         newVal = new Observer(newVal, true)
       }
@@ -54,14 +58,28 @@ Observer.prototype.bindSet = function (i, v) {
 
 // 实现watch
 Observer.prototype.$watch = function (k, callback) {
-    Object.defineProperty(this.data, k, {
-      set: function (newVal) {
-        callback(newVal)
-        return newVal
-      }
-    })
+    // 如果是个对象则进行里面数据绑定
+    let j;
+    let obj = this.data
+    if(typeof obj[k] === 'object') {
+      let arr = Object.getOwnPropertyNames(obj[k])
+      arr.forEach(function (val, index) {
+        //console.log(obj[k], val, obj[k][val], callback)
+        bindEvent(obj[k], val, obj[k][val], callback)
+      })
+    } else {
+      bindEvent(obj, k, obj[k], callback)
+    }
 }
 
+function bindEvent(obj, k, v, callback) {
+  Object.defineProperty(obj, k, {
+    set: function (v) {
+      callback(v)
+      return v
+    }
+  })
+}
 
 let app2 = new Observer({
     name: {
