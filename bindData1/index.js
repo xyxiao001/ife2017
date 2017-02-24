@@ -10,6 +10,7 @@ function Observer(data) {
   return o
 }
 
+// 三个参数 当前对象, 设置的key, 和 key的值
 function setObj (obj, key, val) {
   Object.defineProperty(obj, key, {
     enumerable: true,
