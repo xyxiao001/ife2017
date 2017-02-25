@@ -30,14 +30,15 @@ Vue.prototype.render = function () {
   this.dom.innerHTML = html
 }
 
-// 实现动态的数据绑定4
 let app = new Vue({
   el: '#app',
   data: {
     user: {
-      name: 'youngwind',
+      name: '简单版的数据绑定',
       age: 25
-    }
+    },
+    city: '天门',
+    major: 'computer'
   }
 });
 
