@@ -41,6 +41,7 @@ Vue.prototype.bindVal = function (obj, i, v) {
     },
     set: function (newVal) {
       console.log('我要重新渲染了..')
+      console.log('修改的是' + i, '值为:' + newVal)
       if (typeof newVal === 'object') {
         newVal = this.observer(newVal)
       }
@@ -86,6 +87,8 @@ let app = new Vue({
     major: 'computer'
   }
 });
+
+setTimeout(() => app.data.user.name = '新的名字', 1000)
 
 
 //console.log(app)
