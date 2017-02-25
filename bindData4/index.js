@@ -8,13 +8,25 @@ function Vue(data) {
 
 // 获取需要渲染的模板
 Vue.prototype.getMode = function () {
-  let mode = document.querySelector(this.el).innerHTML
-  return mode
+  this.dom = document.querySelector(this.el)
+  return this.dom.innerHTML
 }
 
 // 渲染函数
 Vue.prototype.render = function () {
-  console.log('render')
+  var html = this.getMode()
+  var pattern = /\{\{(.*?)\}\}/g
+  var that = this
+  html.match(pattern).forEach(function (val) {
+    var s = val.substr(2, val.length - 4)
+    var arrS = s.split('.')
+    var r = that.data
+    arrS.forEach(function (v) {
+      r = r[v]
+    })
+    html = html.replace(val, r)
+  })
+  this.dom.innerHTML = html
 }
 
 // 实现动态的数据绑定4
