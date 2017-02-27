@@ -19,7 +19,7 @@ Vue.prototype.observer = function (obj) {
 
       // 如果是对象 则重新设置
       if (typeof v === 'object') {
-        v = this.observer(v)
+        this.observer(v)
       }
 
       // 绑定对象get set
@@ -43,7 +43,7 @@ Vue.prototype.bindVal = function (obj, i, v) {
       console.log('我要重新渲染了..')
       console.log('修改的是' + i, '值为:' + newVal)
       if (typeof newVal === 'object') {
-        newVal = this.observer(newVal)
+        this.observer(newVal)
       }
       if (newVal !== v) {
         v = newVal
@@ -64,31 +64,20 @@ Vue.prototype.render = function () {
   var html = this.template
   var pattern = /\{\{(.*?)\}\}/g
   var that = this
+  if (!html.match(pattern)) {
+    return false
+  }
   html.match(pattern).forEach(function (val) {
+    val = val.replace(/(^\s*)|(\s*$)/g, '')
     var s = val.substr(2, val.length - 4)
     var arrS = s.split('.')
     var r = that.data
     arrS.forEach(function (v) {
+      v = v.replace(/(^\s*)|(\s*$)/g, '')
       r = r[v]
     })
     html = html.replace(val, r)
   })
   this.dom.innerHTML = html
 }
-
-let app = new Vue({
-  el: '#app',
-  data: {
-    user: {
-      name: '简单版的数据绑定',
-      age: 25
-    },
-    city: '天门',
-    major: 'computer'
-  }
-});
-
-setTimeout(() => app.data.user.name = '新的名字', 1000)
-
-
 //console.log(app)

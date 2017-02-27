@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+    <title>百度2017 ife前端练习</title>
+    <style typoe="text/css">
+      body {
+        background-image: url(http://ofyaji162.bkt.clouddn.com/bg2.jpg);
+        background-size: cover;
+      }
+      a {
+        color: black;
+        font-weight: bold;
+        letter-spacing: 1px;
+        text-decoration: none;
+      }
+
+      h1 {
+         text-align: center;
+      }
+
+      #app {
+        width: 100%;
+      }
+
+      #app a {
+        display: inline-block;
+        padding-top: 50px;
+        width: 33.33%;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>ife2017习题列表</h1>
+      <div id="app">
+        <a v-for="item in arrs" :href="item.url" target="_blank">
+          {{ item.name }}
+        </a>
+      </div>
+    </div>
+    <script src="https://cdn.bootcss.com/vue/2.1.10/vue.min.js"></script>
+    <script type="text/javascript">
+      var list = new Vue({
+        el: '#app',
+        data: {
+          arrs: [
+            {
+              name: '动态数据绑定1',
+              url: './bindData1/index.html'
+            },
+            {
+              name: '动态数据绑定2',
+              url: './bindData2/index.html'
+            },
+            {
+              name: '动态数据绑定3',
+              url: './bindData3/index.html'
+            },
+            {
+              name: '动态数据绑定4',
+              url: './bindData4/index.html'
+            },
+            {
+              name: '动态数据绑定5',
+              url: './bindData5/index.html'
+            },
+            {
+              name: '音乐播放器',
+              url: 'http://xyxiao.cn/vmusic'
+            },
+          ]
+        }
+      })
+    </script>
+  </body>
+</html>

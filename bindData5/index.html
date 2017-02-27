@@ -107,5 +107,20 @@
 
     </pre>
     <script src="index.js"></script>
+    <script type="text/javascript">
+      let app = new Vue({
+        el: '#app',
+        data: {
+          user: {
+            name: '简单版的数据绑定',
+            age: 25
+          },
+          city: '天门',
+          major: 'computer'
+        }
+      });
+
+      setTimeout(() => app.data.user.name = '新的名字', 1000)
+    </script>
   </body>
 </html>
