@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>有趣的鼠标悬浮模糊效果</title>
+    <style type="text/css">
+      * {
+        margin: 0;
+        padding: 0;
+      }
+      .box {
+        position: relative;
+        width: 600px;
+        height: 400px;
+        margin: 5% auto;
+      }
+
+      .box-bg {
+        position: absolute;
+        z-index: -5;
+        width: 100%;
+        height: 100%;
+        background-image: url(http://ofyaji162.bkt.clouddn.com/bg2.jpg);
+        background-repeat: no-repeat;
+        background-size: cover;
+      }
+
+      .box-content {
+        width: 520px;
+        height: 320px;
+        padding: 40px;
+      }
+
+      .box-body {
+        position: relative;
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+        visibility: hidden;
+        opacity: 0;
+        text-align: center;
+        transition: opacity 1s ease-out;
+      }
+
+      .box-body h1 {
+        padding-top: 120px;
+        background-image: -webkit-linear-gradient(left,#3498db,#f47920 10%,#d71345 20%,#f7acbc 30%,#ffd400 40%,#3498db 50%,#f47920 60%,#d71345 70%,#f7acbc 80%,#ffd400 90%,#3498db);
+        color: transparent;
+        -webkit-background-clip: text;
+        background-size: 200% 100%;
+        animation: slide 5s infinite linear;
+      }
+
+      @keyframes slide {
+        0%  {
+          background-position: 0 0;
+        }
+        100% {
+          background-position: -100% 0;
+        }
+      }
+
+      .box-body a {
+        display: inline-block;
+        padding-top: 20px;
+        text-decoration: none;
+        animation: changeColor 2s infinite linear;
+        transition: all 1s linear;
+      }
+
+      @keyframes changeColor {
+        0%  {
+          color: #d71345;
+        }
+        100% {
+          color: #3498db;
+        }
+      }
+
+      .box-body::before {
+        content: '';
+        position: absolute;
+        box-sizing: border-box;
+        left: 0;
+        top: 50%;
+        width: 100%;
+        height: 0;
+        overflow: hidden;
+        border: 3px solid #fffffb;
+        border-width: 0 3px;
+        visibility: hidden;
+        transition: all .5s;
+        z-index: -1;
+      }
+
+      .box-body::after {
+        content: '';
+        position: absolute;
+        box-sizing: border-box;
+        left: 50%;
+        top: 0;
+        width: 0;
+        height: 100%;
+        overflow: hidden;
+        border: 3px solid #fffffb;
+        border-width: 3px 0px;
+        visibility: hidden;
+        transition: all .5s;
+        z-index: -1;
+      }
+
+      .box:hover .box-bg {
+        filter: blur(2px);
+      }
+
+      .box:hover .box-body {
+        visibility: visible;
+        opacity: 1;
+        background-color: rgba(255, 255, 255, 0.1);
+      }
+
+      .box:hover .box-body::before{
+        visibility: visible;
+        height: 100%;
+        top: 0;
+      }
+
+      .box:hover .box-body::after{
+        visibility: visible;
+        width: 100%;
+        left: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="box">
+      <div class="box-bg"></div>
+      <div class="box-content">
+        <div class="box-body">
+          <h1>goodboy 123456</h1>
+          <a href="http://xyxiao.cn/vue-blog" target="_blank">点击进入</a>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
