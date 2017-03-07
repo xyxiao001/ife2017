@@ -6,8 +6,58 @@
     <title>弹性盒子2</title>
   </head>
   <style type="text/css">
+    .vertical-box {
+      display: flex;
+      height: 400px;
+      width: 400px;
+      flex-flow: column;
+    }
+
+    .horizontal-box {
+      display: flex;
+      flex-flow: row;
+    }
+    .spacer {
+      flex: auto;
+      background-color: black;
+    }
+    .centered-element {
+      flex: none;
+      line-height: 35px;
+      background-color: white;
+    }
+
+    .list-box {
+      display: flex;
+      width: 400px;
+      margin-top: 20px;
+      border: 1px solid black;
+      box-sizing: border-box;
+    }
+
+    .item {
+      flex: 1;
+      line-height: 35px;
+      background-color: black;
+      color: white;
+      text-align: center;
+    }
   </style>
   <body>
-    <div class="container"></div>
+    <div class="vertical-box">
+      <div class="spacer"></div>
+        <div class="centered-element horizontal-box">
+          <div class="spacer"></div>
+          <div class="centered-element">我要居中</div>
+           <div class="spacer"></div>
+        </div>
+        <div class="spacer"></div>
+    </div>
+
+    <div class="list-box">
+      <div class="item">导航1</div>
+      <div class="item">导航2</div>
+      <div class="item">导航3</div>
+    </div>
   </body>
 </html>
