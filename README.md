@@ -76,9 +76,9 @@ flex: flex-grow flex-shrink flex-basis
 ##align-self
 ####会对齐当前 flex 行中的 flex 元素，并覆盖 align-items 的值. 如果任何 flex 元素的侧轴方向 margin 值设置为 auto，则会忽略 align-self。
 ####auto
-设置为父元素的 align-items 值，如果该元素没有父元素的话，就设置为 stretch。
+####设置为父元素的 align-items 值，如果该元素没有父元素的话，就设置为 stretch。
 ####flex-start
-flex 元素会对齐到 cross-axis 的首端。
+####flex 元素会对齐到 cross-axis 的首端。
 ####flex-end
 ####flex 元素会对齐到 cross-axis 的尾端。
 ####center
