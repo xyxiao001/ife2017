@@ -7,7 +7,45 @@
   <body>
 
     <script type="text/javascript">
-      'use strict'
+    'use strict'
+      var closeDoorCommand = {
+        excute: function () {
+          console.log('关门')
+        }
+      }
+
+      var openPcCommand = {
+        excute: function () {
+          console.log('开电脑')
+        }
+      }
+
+      var openQQCommand = {
+        excute: function () {
+          console.log('登录QQ')
+        }
+      }
+
+      // 定义宏命令
+      var MacroCommand = function () {
+        return {
+          commandsList: [],
+          add: function (command) {
+            this.commandsList.push(command)
+          },
+          excute: function () {
+            for (var i = 0,  command; command = this.commandsList[ i ++ ];) {
+              command.excute()
+            }
+          }
+        }
+      }
+
+      var macroCommand = MacroCommand()
+      macroCommand.add(closeDoorCommand)
+      macroCommand.add(openPcCommand)
+      macroCommand.add(openQQCommand)
+      macroCommand.excute()
     </script>
   </body>
 </html>
