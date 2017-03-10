@@ -3,17 +3,74 @@
   <head>
     <meta charset="utf-8">
     <title>命令模式</title>
+    <style type="text/css">
+      #ball {
+        position: fixed;
+        top: 20%;
+        left: 20%;
+        width: 20px;
+        height: 20px;
+        background: blue;
+        border-radius: 10px;
+        transform: translate3d(0, 0, 0);
+        transition: transform 2s ease-out;
+      }
+    </style>
   </head>
   <body>
-    <button id="btn1">按钮1</button>
-    <button id="btn2">按钮2</button>
-    <button id="btn3">按钮3</button>
-    <p id="msg"></p>
+    <div>
+      <button id="btn1">按钮1</button>
+      <button id="btn2">按钮2</button>
+      <button id="btn3">按钮3</button>
+      <p id="msg"></p>
+    </div>
+    <div>
+      <input type="number" id="ballValue" value="" placeholder="输入小球要运动的x位置">
+      <button type="button" name="button" id="go">运动</button>
+      <button type="button" name="button" id="back">撤销</button>
+      <div id="ball"></div>
+    </div>
     <script type="text/javascript">
-      var btn1 = document.querySelector('#btn1')
-      var btn2 = document.querySelector('#btn2')
-      var btn3 = document.querySelector('#btn3')
-      var msg = document.querySelector('#msg')
+      // 小球的运动和撤销
+      var ball = document.getElementById('ball')
+      var go = document.getElementById('go')
+      var back = document.getElementById('back')
+      var value = document.getElementById('ballValue')
+
+      var run = function (data) {
+        ball.style.transitionDuration = (data / 50) + 's'
+        ball.style.transform = 'translate3d(' + data + 'px , 0, 0)'
+      }
+
+      var MoveCommand = function (data, ball) {
+        this.data = data
+        this.dom = ball
+        this.old = null
+      }
+      MoveCommand.prototype.execute = function () {
+        this.old = window.getComputedStyle(ball).transform
+        run(this.data)
+      }
+
+      MoveCommand.prototype.undo = function () {
+        ball.style.transform = this.old
+      }
+
+      var move
+      go.addEventListener('click', function () {
+        move = new MoveCommand(value.value, ball)
+        move.execute()
+      })
+
+      back.addEventListener('click', function () {
+        move.undo()
+      })
+
+
+      var btn1 = document.getElementById('btn1')
+      var btn2 = document.getElementById('btn2')
+      var btn3 = document.getElementById('btn3')
+      var msg = document.getElementById('msg')
 
       var setComand = function (btn, command) {
         btn.addEventListener('click', function () {
