@@ -71,13 +71,13 @@ var update = () => {
   // 单纯的数字匹配
   dom.line = document.querySelectorAll('.md-show p')
   dom.line.forEach((item, index) => {
-    reg(item.innerHTML)
+    reg(item.innerHTML, index)
   })
 }
 
 
 // 正则匹配右边
-var reg = (data) => {
+var reg = (data, index) => {
   if (data.search(/\#( .*?)/) === 0) {
     data = data.replace('# ', '')
     var h1 = document.createElement('h1')
@@ -109,6 +109,7 @@ var reg = (data) => {
     h6.innerHTML = data
     dom.preview.appendChild(h6)
   } else {
+    // 判断下面的
     var p = document.createElement('p')
     p.innerHTML = data
     dom.preview.appendChild(p)

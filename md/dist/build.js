@@ -59,7 +59,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "d1f14532900a0700059d"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "c51e8d485701939a8ba1"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotMainModule = true; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
@@ -790,12 +790,12 @@ var update = function update() {
   // 单纯的数字匹配
   dom.line = document.querySelectorAll('.md-show p');
   dom.line.forEach(function (item, index) {
-    reg(item.innerHTML);
+    reg(item.innerHTML, index);
   });
 };
 
 // 正则匹配右边
-var reg = function reg(data) {
+var reg = function reg(data, index) {
   if (data.search(/\#( .*?)/) === 0) {
     data = data.replace('# ', '');
     var h1 = document.createElement('h1');
@@ -827,6 +827,7 @@ var reg = function reg(data) {
     h6.innerHTML = data;
     dom.preview.appendChild(h6);
   } else {
+    // 判断下面的
     var p = document.createElement('p');
     p.innerHTML = data;
     dom.preview.appendChild(p);
