@@ -1,0 +1,21 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+#app {
+  display: flex;
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+.x-md {
+  width: 50%;
+  background-color: #272822;
+}
+
+.x-show {
+  width: 50%;
+}
