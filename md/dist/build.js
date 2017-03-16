@@ -59,7 +59,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "06e7a3bf32b09e189c8c"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "e9da5535e3456ddcb9ab"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotMainModule = true; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
@@ -720,7 +720,8 @@
 //引入css 文件
 __webpack_require__("./index.scss");
 window.onload = function () {
-  dom.show.innerHTML = window.localStorage.getItem('md');
+  var data = window.localStorage.getItem('md');
+  dom.show.innerHTML = data ? data : '<p># 开始你的markdown之旅</p>';
   createLine();
 };
 

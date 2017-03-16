@@ -1,7 +1,8 @@
 //引入css 文件
 require('./index.scss')
 window.onload = () => {
-  dom.show.innerHTML = window.localStorage.getItem('md')
+  var data = window.localStorage.getItem('md')
+  dom.show.innerHTML = data ? data : '<p># 开始你的markdown之旅</p>'
   createLine()
 }
 
