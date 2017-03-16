@@ -59,7 +59,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "e9da5535e3456ddcb9ab"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "41193312bdbb60e749ad"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotMainModule = true; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
@@ -723,12 +723,14 @@ window.onload = function () {
   var data = window.localStorage.getItem('md');
   dom.show.innerHTML = data ? data : '<p># 开始你的markdown之旅</p>';
   createLine();
+  update();
 };
 
 var dom = {
   order: document.querySelector('.md-order'),
   show: document.querySelector('.md-show'),
-  line: document.querySelectorAll('.md-show p')
+  line: document.querySelectorAll('.md-show p'),
+  preview: document.querySelector('.x-show')
 };
 
 window.addEventListener('keyup', function (e) {
@@ -738,6 +740,10 @@ window.addEventListener('keyup', function (e) {
 
 window.addEventListener('keydown', function (e) {
   // 处理键盘事件
+  write(e);
+});
+
+window.addEventListener('mousedown', function (e) {
   write(e);
 });
 
@@ -752,6 +758,9 @@ var write = function write(e) {
       e.preventDefault();
     }
   }
+
+  // 右侧实时预览
+  update();
 
   // 储存数据
   setData();
@@ -772,6 +781,56 @@ var createLine = function createLine() {
 var setData = function setData() {
   dom.show = document.querySelector('.md-show');
   window.localStorage.setItem('md', dom.show.innerHTML);
+};
+
+// 右侧预览
+var update = function update() {
+  dom.preview = document.querySelector('.x-show');
+  dom.preview.innerHTML = '';
+  // 单纯的数字匹配
+  dom.line = document.querySelectorAll('.md-show p');
+  dom.line.forEach(function (item, index) {
+    reg(item.innerHTML);
+  });
+};
+
+// 正则匹配右边
+var reg = function reg(data) {
+  if (data.search(/\#( .*?)/) === 0) {
+    data = data.replace('# ', '');
+    var h1 = document.createElement('h1');
+    h1.innerHTML = data;
+    dom.preview.appendChild(h1);
+  } else if (data.search(/\##( .*?)/) === 0) {
+    data = data.replace('## ', '');
+    var h2 = document.createElement('h2');
+    h2.innerHTML = data;
+    dom.preview.appendChild(h2);
+  } else if (data.search(/\###( .*?)/) === 0) {
+    data = data.replace('### ', '');
+    var h3 = document.createElement('h3');
+    h3.innerHTML = data;
+    dom.preview.appendChild(h3);
+  } else if (data.search(/\####( .*?)/) === 0) {
+    data = data.replace('#### ', '');
+    var h4 = document.createElement('h4');
+    h4.innerHTML = data;
+    dom.preview.appendChild(h4);
+  } else if (data.search(/\#####( .*?)/) === 0) {
+    data = data.replace('##### ', '');
+    var h5 = document.createElement('h5');
+    h5.innerHTML = data;
+    dom.preview.appendChild(h5);
+  } else if (data.search(/\######( .*?)/) === 0) {
+    data = data.replace('###### ', '');
+    var h6 = document.createElement('h6');
+    h6.innerHTML = data;
+    dom.preview.appendChild(h6);
+  } else {
+    var p = document.createElement('p');
+    p.innerHTML = data;
+    dom.preview.appendChild(p);
+  }
 };
 
 /***/ }),
@@ -2862,7 +2921,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "* {\n  margin: 0;\n  padding: 0; }\n\n#app {\n  position: relative;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  width: 100%;\n  min-height: 100vh;\n  overflow-x: hidden; }\n\n.x-md {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  width: 49.5%;\n  background-color: #272822;\n  overflow-y: scroll;\n  color: #F8F8F2;\n  line-height: 20px;\n  font-size: 14px; }\n\n.x-md .md-order {\n  width: 35px;\n  height: 100%;\n  background-color: #2f3129; }\n\n.x-md .md-order .order-item {\n  width: 100%;\n  text-align: center; }\n\n.x-md .md-order .order-activity {\n  background-color: #272822; }\n\n.x-md .md-show {\n  outline: none;\n  padding-left: 5px;\n  width: calc(100% - 35px); }\n\n.x-border {\n  width: 0.5%;\n  margin-left: 0.5%;\n  border-left: 3px dashed #CCC; }\n\n.x-show {\n  width: 49.5%; }\n", ""]);
+exports.push([module.i, "* {\n  margin: 0;\n  padding: 0; }\n\n#app {\n  position: relative;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  width: 100%;\n  min-height: 100vh;\n  overflow-x: hidden; }\n\n.x-md {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  width: 49.5%;\n  background-color: #272822;\n  overflow-y: scroll;\n  color: #F8F8F2;\n  line-height: 20px;\n  font-size: 14px; }\n\n.x-md .md-order {\n  width: 35px;\n  height: 100%;\n  background-color: #2f3129; }\n\n.x-md .md-order .order-item {\n  width: 100%;\n  text-align: center; }\n\n.x-md .md-order .order-activity {\n  background-color: #272822; }\n\n.x-md .md-show {\n  outline: none;\n  padding-left: 5px;\n  width: calc(100% - 35px); }\n\n.x-border {\n  width: 0.5%;\n  margin-left: 0.5%;\n  border-left: 3px dashed #CCC; }\n\n.x-show {\n  width: 49.5%;\n  padding-left: 5px; }\n\n.x-show h1, .x-show h2, .x-show h3, .x-show h4, .x-show h5, .x-show h6 {\n  color: #404040;\n  line-height: 36px; }\n\n.x-show h1 {\n  margin-bottom: 18px;\n  font-size: 30px; }\n\n.x-show h2 {\n  font-size: 24px; }\n", ""]);
 
 // exports
 
