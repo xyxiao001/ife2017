@@ -59,7 +59,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "7ddd4070af9f66db8a5c"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "013cfdd7b5d3216e290f"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotMainModule = true; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
@@ -719,7 +719,35 @@
 
 //引入css 文件
 __webpack_require__("./index.scss");
-console.log('finish');
+var dom = {
+  order: document.querySelector('.md-order'),
+  show: document.querySelector('.md-show'),
+  line: document.querySelectorAll('.md-show p')
+};
+
+window.addEventListener('keyup', function (e) {
+  // 处理键盘事件
+  write(e);
+});
+
+// 出来键盘方法
+var write = function write(e) {
+  dom.line = document.querySelectorAll('.md-show p');
+  if (dom.line.length <= 0) {
+    console.log(dom.line);
+    var p = document.createElement('p');
+    p.innerHTML = '<br>';
+    dom.show.appendChild(p);
+  }
+  // 开始生成行数
+  dom.order.innerHTML = '';
+  dom.line.forEach(function (item, index) {
+    var div = document.createElement('div');
+    div.innerHTML = index + 1;
+    div.className = 'order-item';
+    dom.order.appendChild(div);
+  });
+};
 
 /***/ }),
 
@@ -2809,7 +2837,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "* {\n  margin: 0;\n  padding: 0; }\n\n#app {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  position: relative;\n  width: 100%;\n  min-height: 100vh;\n  overflow-x: hidden; }\n\n.x-md {\n  width: 50%;\n  background-color: #272822; }\n\n.x-show {\n  width: 50%; }\n", ""]);
+exports.push([module.i, "* {\n  margin: 0;\n  padding: 0; }\n\n#app {\n  position: relative;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  width: 100%;\n  min-height: 100vh;\n  overflow-x: hidden; }\n\n.x-md {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  width: 49.5%;\n  background-color: #272822;\n  overflow-y: scroll;\n  color: #F8F8F2;\n  line-height: 20px;\n  font-size: 14px; }\n\n.x-md .md-order {\n  width: 35px;\n  height: 100%;\n  background-color: #2f3129; }\n\n.x-md .md-order .order-item {\n  width: 100%;\n  text-align: center; }\n\n.x-md .md-order .order-activity {\n  background-color: #272822; }\n\n.x-md .md-show {\n  outline: none;\n  padding-left: 5px;\n  width: calc(100% - 35px); }\n\n.x-border {\n  width: 0.5%;\n  margin-left: 0.5%;\n  border-left: 3px dashed #CCC; }\n\n.x-show {\n  width: 49.5%; }\n", ""]);
 
 // exports
 
