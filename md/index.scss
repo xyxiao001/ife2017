@@ -18,12 +18,12 @@ $black2: #2f3129;
   display: flex;
   width: 49.5%;
   background-color: $black;
-  overflow-y: scroll;
   color: #F8F8F2;
   line-height: 20px;
   font-size: 14px;
 
   .md-order {
+    padding-top: 10px;
     width: 35px;
     height: 100%;
     background-color: $black2;
@@ -40,7 +40,7 @@ $black2: #2f3129;
 
   .md-show {
     outline: none;
-    padding-left: 5px;
+    padding: 10px;
     width: calc(100% - 35px)
   }
 }
@@ -53,7 +53,7 @@ $black2: #2f3129;
 
 .x-show {
   width: 49.5%;
-  padding-left: 5px;
+  padding: 10px;
 
   h1, h2, h3, h4, h5, h6 {
     color: #404040;

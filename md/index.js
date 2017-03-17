@@ -49,6 +49,7 @@ var write = (e) => {
 
 var createLine = () => {
   dom.line = document.querySelectorAll('.md-show p')
+  dom.line = Array.prototype.slice.call(dom.line)
   dom.order.innerHTML = ''
   dom.line.forEach((item, index) => {
     var div = document.createElement('div')
@@ -70,6 +71,7 @@ var update = () => {
   dom.preview.innerHTML = ''
   // 单纯的数字匹配
   dom.line = document.querySelectorAll('.md-show p')
+  dom.line = Array.prototype.slice.call(dom.line)
   dom.line.forEach((item, index) => {
     reg(item.innerHTML, index)
   })
