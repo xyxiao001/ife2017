@@ -59,7 +59,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "db609830f5ee333d7818"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "b59b5e45e6c4609a2aad"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotMainModule = true; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
@@ -733,6 +733,8 @@ var dom = {
   preview: document.querySelector('.x-show')
 };
 
+var row = [];
+
 window.addEventListener('keyup', function (e) {
   // 处理键盘事件
   write(e);
@@ -788,52 +790,115 @@ var setData = function setData() {
 var update = function update() {
   dom.preview = document.querySelector('.x-show');
   dom.preview.innerHTML = '';
+  row = [];
   // 单纯的数字匹配
   dom.line = document.querySelectorAll('.md-show p');
   dom.line = Array.prototype.slice.call(dom.line);
   dom.line.forEach(function (item, index) {
     reg(item.innerHTML, index);
   });
+  // 生成展示的
+  createShow();
 };
 
 // 正则匹配右边
 var reg = function reg(data, index) {
+  // 匹配 看需要输出为什么内容
   if (data.search(/\#( .*?)/) === 0) {
     data = data.replace('# ', '');
-    var h1 = document.createElement('h1');
-    h1.innerHTML = data;
-    dom.preview.appendChild(h1);
+    row.push({
+      type: 'h1',
+      text: data
+    });
   } else if (data.search(/\##( .*?)/) === 0) {
     data = data.replace('## ', '');
-    var h2 = document.createElement('h2');
-    h2.innerHTML = data;
-    dom.preview.appendChild(h2);
+    row.push({
+      type: 'h2',
+      text: data
+    });
   } else if (data.search(/\###( .*?)/) === 0) {
     data = data.replace('### ', '');
-    var h3 = document.createElement('h3');
-    h3.innerHTML = data;
-    dom.preview.appendChild(h3);
+    row.push({
+      type: 'h3',
+      text: data
+    });
   } else if (data.search(/\####( .*?)/) === 0) {
     data = data.replace('#### ', '');
-    var h4 = document.createElement('h4');
-    h4.innerHTML = data;
-    dom.preview.appendChild(h4);
+    row.push({
+      type: 'h4',
+      text: data
+    });
   } else if (data.search(/\#####( .*?)/) === 0) {
     data = data.replace('##### ', '');
-    var h5 = document.createElement('h5');
-    h5.innerHTML = data;
-    dom.preview.appendChild(h5);
+    row.push({
+      type: 'h5',
+      text: data
+    });
   } else if (data.search(/\######( .*?)/) === 0) {
     data = data.replace('###### ', '');
-    var h6 = document.createElement('h6');
-    h6.innerHTML = data;
-    dom.preview.appendChild(h6);
+    row.push({
+      type: 'h6',
+      text: data
+    });
   } else {
     // 判断下面的
-    var p = document.createElement('p');
-    p.innerHTML = data;
-    dom.preview.appendChild(p);
+    row.push({
+      type: 'p',
+      text: data
+    });
   }
+
+  // 加粗判断
+
+  // 斜体
+
+  // 超链接
+
+};
+
+// 生成展示的
+var createShow = function createShow() {
+  row.forEach(function (item, index) {
+    switch (item.type) {
+      case 'h1':
+        var h1 = document.createElement('h1');
+        h1.innerHTML = item.text;
+        dom.preview.appendChild(h1);
+        break;
+      case 'h2':
+        var h2 = document.createElement('h2');
+        h2.innerHTML = item.text;
+        dom.preview.appendChild(h2);
+        break;
+      case 'h3':
+        var h3 = document.createElement('h3');
+        h3.innerHTML = item.text;
+        dom.preview.appendChild(h3);
+        break;
+      case 'h4':
+        var h4 = document.createElement('h4');
+        h4.innerHTML = item.text;
+        dom.preview.appendChild(h4);
+        break;
+      case 'h5':
+        var h5 = document.createElement('h5');
+        h5.innerHTML = item.text;
+        dom.preview.appendChild(h5);
+        break;
+      case 'h6':
+        var h6 = document.createElement('h6');
+        h6.innerHTML = item.text;
+        dom.preview.appendChild(h6);
+        break;
+      case 'p':
+        var p = document.createElement('p');
+        p.innerHTML = item.text;
+        dom.preview.appendChild(p);
+        break;
+      default:
+
+    }
+  });
 };
 
 /***/ }),
@@ -2924,7 +2989,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "* {\n  margin: 0;\n  padding: 0; }\n\n#app {\n  position: relative;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  width: 100%;\n  min-height: 100vh;\n  overflow-x: hidden; }\n\n.x-md {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  width: 49.5%;\n  background-color: #272822;\n  color: #F8F8F2;\n  line-height: 20px;\n  font-size: 14px; }\n\n.x-md .md-order {\n  padding-top: 10px;\n  width: 35px;\n  height: 100%;\n  background-color: #2f3129; }\n\n.x-md .md-order .order-item {\n  width: 100%;\n  text-align: center; }\n\n.x-md .md-order .order-activity {\n  background-color: #272822; }\n\n.x-md .md-show {\n  outline: none;\n  padding: 10px;\n  width: calc(100% - 35px); }\n\n.x-border {\n  width: 0.5%;\n  margin-left: 0.5%;\n  border-left: 3px dashed #CCC; }\n\n.x-show {\n  width: 49.5%;\n  padding: 10px; }\n\n.x-show h1, .x-show h2, .x-show h3, .x-show h4, .x-show h5, .x-show h6 {\n  color: #404040;\n  line-height: 36px; }\n\n.x-show h1 {\n  margin-bottom: 18px;\n  font-size: 30px; }\n\n.x-show h2 {\n  font-size: 24px; }\n\n.x-show p {\n  font-size: 14px;\n  line-height: 18px;\n  color: #737373; }\n", ""]);
+exports.push([module.i, "* {\n  margin: 0;\n  padding: 0; }\n\n#app {\n  position: relative;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  width: 100%;\n  min-height: 100vh;\n  overflow-x: hidden; }\n\n.x-md {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  width: 49.5%;\n  background-color: #272822;\n  color: #F8F8F2;\n  line-height: 20px;\n  font-size: 14px; }\n\n.x-md .md-order {\n  padding-top: 10px;\n  width: 35px;\n  height: 100%;\n  background-color: #2f3129; }\n\n.x-md .md-order .order-item {\n  width: 100%;\n  text-align: center; }\n\n.x-md .md-order .order-activity {\n  background-color: #272822; }\n\n.x-md .md-show {\n  outline: none;\n  padding: 10px;\n  width: calc(100% - 35px); }\n\n.x-border {\n  width: 0.5%;\n  margin-left: 0.5%;\n  border-left: 3px dashed #CCC; }\n\n.x-show {\n  font-family: \"Helvetica Neue\", Helvetica, \"Hiragino Sans GB\", Arial, sans-serif;\n  width: 49.5%;\n  padding: 10px; }\n\n.x-show h1, .x-show h2, .x-show h3, .x-show h4, .x-show h5, .x-show h6 {\n  color: #404040;\n  line-height: 36px; }\n\n.x-show h1 {\n  font-size: 30px; }\n\n.x-show h2 {\n  font-size: 24px; }\n\n.x-show p {\n  font-size: 14px;\n  line-height: 18px;\n  color: #737373; }\n", ""]);
 
 // exports
 
