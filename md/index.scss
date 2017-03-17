@@ -41,7 +41,12 @@ $black2: #2f3129;
   .md-show {
     outline: none;
     padding: 10px;
-    width: calc(100% - 35px)
+    width: calc(100% - 35px);
+    overflow-x: auto;
+
+    p {
+      white-space: nowrap;
+    }
   }
 }
 

@@ -86,62 +86,37 @@ var update = () => {
 // 正则匹配右边
 var reg = (data, index) => {
   // 匹配 看需要输出为什么内容
+  var line = {}
   if (data.search(/\#( .*?)/) === 0) {
     data = data.replace('# ', '')
-    row.push({
-      type: 'h1',
-      text: data
-    })
+    line.type = 'h1'
   } else if (data.search(/\##( .*?)/) === 0) {
     data = data.replace('## ', '')
-    row.push({
-      type: 'h2',
-      text: data
-    })
-
+    line.type = 'h2'
   } else if (data.search(/\###( .*?)/) === 0) {
     data = data.replace('### ', '')
-    row.push({
-      type: 'h3',
-      text: data
-    })
-
+    line.type = 'h3'
   } else if (data.search(/\####( .*?)/) === 0) {
     data = data.replace('#### ', '')
-    row.push({
-      type: 'h4',
-      text: data
-    })
-
+    line.type = 'h4'
   } else if (data.search(/\#####( .*?)/) === 0) {
     data = data.replace('##### ', '')
-    row.push({
-      type: 'h5',
-      text: data
-    })
-
+    line.type = 'h5'
   } else if (data.search(/\######( .*?)/) === 0) {
     data = data.replace('###### ', '')
-    row.push({
-      type: 'h6',
-      text: data
-    })
-
+    line.type = 'h6'
   } else {
     // 判断下面的
-    row.push({
-      type: 'p',
-      text: data
-    })
+    line.type = 'p'
   }
-
+  line.text = data
   // 加粗判断
 
   // 斜体
 
   // 超链接
 
-
+  row.push(line)
 }
 
 // 生成展示的
