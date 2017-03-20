@@ -11,22 +11,23 @@ var dom = {
   order: document.querySelector('.md-order'),
   show: document.querySelector('.md-show'),
   line: document.querySelectorAll('.md-show p'),
-  preview: document.querySelector('.x-show')
+  preview: document.createElement('div'),
+  previews: document.querySelector('.x-show')
 }
 
 var row = []
 
-window.addEventListener('keyup', function (e) {
+dom.show.addEventListener('keyup', function (e) {
   // 处理键盘事件
   write(e)
 })
 
-window.addEventListener('keydown', function (e) {
+dom.show.addEventListener('keydown', function (e) {
   // 处理键盘事件
   write(e)
 })
 
-window.addEventListener('mousedown', function (e) {
+dom.show.addEventListener('mousedown', function (e) {
   write(e)
 })
 
@@ -80,6 +81,7 @@ var update = () => {
   })
   // 生成展示的
   createShow()
+  append()
 }
 
 
@@ -115,12 +117,25 @@ var reg = (data, index) => {
   // 斜体
 
   // 超链接
-
+  var aArray = line.text.match(/\[(.*)\]\((.*)\)/g)
+  if (aArray !== null) {
+    //console.log(aArray)
+    aArray.forEach((item, index) => {
+      var old = item
+      // 匹配到名字 和 链接
+      var text1 = old.match(/\[(.*)\]/)
+      var name = text1[0].substring(1, text1[0].length - 1)
+      var text2 = old.match(/\((.*)\)/)
+      var url =  text2[0].substring(1, text2[0].length - 1)
+      line.text = line.text.replace(old, `<a href="${url}" target="_blank">${name}</a>`)
+    })
+  }
   row.push(line)
 }
 
 // 生成展示的
 var createShow = () => {
+  dom.preview.innerHTML = ''
   row.forEach((item, index) => {
     switch (item.type) {
       case 'h1':
@@ -162,4 +177,9 @@ var createShow = () => {
 
     }
   })
+}
+
+// 渲染到模板
+var append = () => {
+  dom.previews.innerHTML = dom.preview.innerHTML
 }

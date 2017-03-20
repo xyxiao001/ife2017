@@ -59,7 +59,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "fa8d9fbd190bbcdc7bb0"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "4e656c1b73500720b55c"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotMainModule = true; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
@@ -706,7 +706,7 @@
 /******/ 	__webpack_require__.h = function() { return hotCurrentHash; };
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return hotCreateRequire("./index.js")(__webpack_require__.s = "./index.js");
+/******/ 	return hotCreateRequire(0)(__webpack_require__.s = 0);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -730,22 +730,23 @@ var dom = {
   order: document.querySelector('.md-order'),
   show: document.querySelector('.md-show'),
   line: document.querySelectorAll('.md-show p'),
-  preview: document.querySelector('.x-show')
+  preview: document.createElement('div'),
+  previews: document.querySelector('.x-show')
 };
 
 var row = [];
 
-window.addEventListener('keyup', function (e) {
+dom.show.addEventListener('keyup', function (e) {
   // 处理键盘事件
   write(e);
 });
 
-window.addEventListener('keydown', function (e) {
+dom.show.addEventListener('keydown', function (e) {
   // 处理键盘事件
   write(e);
 });
 
-window.addEventListener('mousedown', function (e) {
+dom.show.addEventListener('mousedown', function (e) {
   write(e);
 });
 
@@ -799,6 +800,7 @@ var update = function update() {
   });
   // 生成展示的
   createShow();
+  append();
 };
 
 // 正则匹配右边
@@ -833,12 +835,25 @@ var reg = function reg(data, index) {
   // 斜体
 
   // 超链接
-
+  var aArray = line.text.match(/\[(.*)\]\((.*)\)/g);
+  if (aArray !== null) {
+    //console.log(aArray)
+    aArray.forEach(function (item, index) {
+      var old = item;
+      // 匹配到名字 和 链接
+      var text1 = old.match(/\[(.*)\]/);
+      var name = text1[0].substring(1, text1[0].length - 1);
+      var text2 = old.match(/\((.*)\)/);
+      var url = text2[0].substring(1, text2[0].length - 1);
+      line.text = line.text.replace(old, '<a href="' + url + '" target="_blank">' + name + '</a>');
+    });
+  }
   row.push(line);
 };
 
 // 生成展示的
 var createShow = function createShow() {
+  dom.preview.innerHTML = '';
   row.forEach(function (item, index) {
     switch (item.type) {
       case 'h1':
@@ -880,6 +895,11 @@ var createShow = function createShow() {
 
     }
   });
+};
+
+// 渲染到模板
+var append = function append() {
+  dom.previews.innerHTML = dom.preview.innerHTML;
 };
 
 /***/ }),
@@ -2970,7 +2990,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "* {\n  margin: 0;\n  padding: 0; }\n\n#app {\n  position: relative;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  width: 100%;\n  min-height: 100vh;\n  overflow-x: hidden; }\n\n.x-md {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  width: 49.5%;\n  background-color: #272822;\n  color: #F8F8F2;\n  line-height: 20px;\n  font-size: 14px; }\n\n.x-md .md-order {\n  padding-top: 10px;\n  width: 35px;\n  height: 100%;\n  background-color: #2f3129; }\n\n.x-md .md-order .order-item {\n  width: 100%;\n  text-align: center; }\n\n.x-md .md-order .order-activity {\n  background-color: #272822; }\n\n.x-md .md-show {\n  outline: none;\n  padding: 10px;\n  width: calc(100% - 35px);\n  overflow-x: auto; }\n\n.x-md .md-show p {\n  white-space: nowrap; }\n\n.x-border {\n  width: 0.5%;\n  margin-left: 0.5%;\n  border-left: 3px dashed #CCC; }\n\n.x-show {\n  font-family: \"Helvetica Neue\", Helvetica, \"Hiragino Sans GB\", Arial, sans-serif;\n  width: 49.5%;\n  padding: 10px; }\n\n.x-show h1, .x-show h2, .x-show h3, .x-show h4, .x-show h5, .x-show h6 {\n  color: #404040;\n  line-height: 36px; }\n\n.x-show h1 {\n  font-size: 30px; }\n\n.x-show h2 {\n  font-size: 24px; }\n\n.x-show p {\n  font-size: 14px;\n  line-height: 18px;\n  color: #737373; }\n", ""]);
+exports.push([module.i, "* {\n  margin: 0;\n  padding: 0; }\n\n#app {\n  position: relative;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  width: 100%;\n  min-height: 100vh;\n  overflow-x: hidden; }\n\n.x-md {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  width: 49.5%;\n  background-color: #272822;\n  color: #F8F8F2;\n  line-height: 20px;\n  font-size: 14px; }\n\n.x-md .md-order {\n  padding-top: 10px;\n  width: 35px;\n  height: 100%;\n  background-color: #2f3129; }\n\n.x-md .md-order .order-item {\n  width: 100%;\n  text-align: center; }\n\n.x-md .md-order .order-activity {\n  background-color: #272822; }\n\n.x-md .md-show {\n  outline: none;\n  padding: 10px;\n  width: calc(100% - 35px);\n  overflow-x: auto; }\n\n.x-md .md-show p {\n  white-space: nowrap; }\n\n.x-border {\n  width: 0.5%;\n  margin-left: 0.5%;\n  border-left: 3px dashed #CCC; }\n\n.x-show {\n  font-family: \"Helvetica Neue\", Helvetica, \"Hiragino Sans GB\", Arial, sans-serif;\n  width: 49.5%;\n  padding: 10px; }\n\n.x-show h1, .x-show h2, .x-show h3, .x-show h4, .x-show h5, .x-show h6 {\n  color: #404040;\n  line-height: 36px; }\n\n.x-show h1 {\n  font-size: 30px; }\n\n.x-show h2 {\n  font-size: 24px; }\n\n.x-show p {\n  font-size: 14px;\n  line-height: 18px;\n  color: #737373; }\n\n.x-show a {\n  color: #0069d6; }\n", ""]);
 
 // exports
 
@@ -3404,6 +3424,15 @@ module.exports = function (css) {
 	// send back the fixed css
 	return fixedCss;
 };
+
+
+/***/ }),
+
+/***/ 0:
+/***/ (function(module, exports, __webpack_require__) {
+
+__webpack_require__("./index.js");
+(function webpackMissingModule() { throw new Error("Cannot find module \"buil\""); }());
 
 
 /***/ })
