@@ -59,7 +59,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "4e656c1b73500720b55c"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "744b3f263d934a287eca"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotMainModule = true; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
@@ -706,7 +706,7 @@
 /******/ 	__webpack_require__.h = function() { return hotCurrentHash; };
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return hotCreateRequire(0)(__webpack_require__.s = 0);
+/******/ 	return hotCreateRequire("./index.js")(__webpack_require__.s = "./index.js");
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -721,7 +721,7 @@
 __webpack_require__("./index.scss");
 window.onload = function () {
   var data = window.localStorage.getItem('md');
-  dom.show.innerHTML = data ? data : '<p># 开始你的markdown之旅</p>';
+  dom.show.innerHTML = data ? data : '<p># \u4E00\u7EA7\u6807\u9898   [\u6211\u662F\u8D85\u94FE\u63A5](http://xyxiao.cn/vue-blog/#/)   [\u535A\u5BA2](http://xyxiao.cn/vue-blog/#/)  **123**</p>\n   <p>## \u4E8C\u7EA7\u6807\u9898  [\u6211\u662F\u4E5F\u662F\u8D85\u94FE\u63A5](http://xyxiao.cn/vue-blog/#/)</p>\n   <p>### \u4E09\u7EA7\u6807\u9898 [\u6211\u8FD8\u662F\u8D85\u94FE\u63A5](http://xyxiao.cn/vue-blog/#/)</p>\n   <p>#### \u56DB\u7EA7\u6807\u9898   **\u6211\u662F\u52A0\u7C97\u7684\u56DB\u7EA7\u6807\u9898**</p>\n   <p>#### \u56DB\u7EA7\u6807\u9898</p>\n   <p>#### \u4E94\u7EA7\u6807\u9898</p>\n   <p>\u6D4B\u8BD5a\u94FE\u63A5\u7684\u8BC6\u522B  [\u767E\u5EA6](http://baidu.com)</p>\n   <p>**\u6211\u662F\u52A0\u7C97\u7684\u6587\u5B57**   **\u6211\u4E5F\u662F\u52A0\u7C97\u7684** **\u6211\u662F\u7C97\u4F53**  **[\u52A0\u7C97\u7684 a \u94FE\u63A5](http://xyxiao.cn/vue-blog/#/)**</p>\n   <p>*\u6211\u662F\u659C\u4F53*   *[\u659C\u7684 a \u94FE\u63A5](http://xyxiao.cn/vue-blog/#/)*</p>\n   <p>\u56FE\u7247\u6D4B\u8BD5 ![\u7A7A\u94FE\u63A5\u56FE\u7247]()</p>\n   <p>\u56FE\u7247\u6D4B\u8BD5 ![goodboy](http://ofyaji162.bkt.clouddn.com/touxiang.jpg)</p>';
   createLine();
   update();
 };
@@ -808,13 +808,13 @@ var reg = function reg(data, index) {
   // 匹配 看需要输出为什么内容
   var line = {};
   if (data.search(/\#( .*?)/) === 0) {
-    data = data.replace('# ', '');
+    data = data.replace('#', '');
     line.type = 'h1';
   } else if (data.search(/\##( .*?)/) === 0) {
-    data = data.replace('## ', '');
+    data = data.replace('##', '');
     line.type = 'h2';
   } else if (data.search(/\###( .*?)/) === 0) {
-    data = data.replace('### ', '');
+    data = data.replace('###', '');
     line.type = 'h3';
   } else if (data.search(/\####( .*?)/) === 0) {
     data = data.replace('#### ', '');
@@ -831,19 +831,50 @@ var reg = function reg(data, index) {
   }
   line.text = data;
   // 加粗判断
+  var strong = line.text.match(/\*\*(.*?)\*\*/g);
+  var strongText = '';
+  if (strong) {
+    strong.forEach(function (item, index) {
+      strongText = item.substring(2, item.length - 2);
+      line.text = line.text.replace(item, '<strong>' + strongText + '</strong>');
+    });
+  }
 
   // 斜体
+  var em = line.text.match(/\*(.*?)\*/g);
+  var emText = '';
+  if (em) {
+    em.forEach(function (item, index) {
+      emText = item.substring(1, item.length - 1);
+      line.text = line.text.replace(item, '<em>' + emText + '</em>');
+    });
+  }
+
+  // 识别图片
+  var imgArray = line.text.match(/!\[(.*?)\]\((.*?)\)/g);
+  if (imgArray) {
+    //console.log(aArray)
+    imgArray.forEach(function (item, index) {
+      var old = item;
+      // 匹配到名字 和 链接
+      var text1 = old.match(/\[(.*?)\]/);
+      var name = text1[0].substring(2, text1[0].length - 1);
+      var text2 = old.match(/\((.*?)\)/);
+      var url = text2[0].substring(1, text2[0].length - 1);
+      line.text = line.text.replace(old, '<img src="' + url + '" alt="' + name + '" />');
+    });
+  }
 
   // 超链接
-  var aArray = line.text.match(/\[(.*)\]\((.*)\)/g);
+  var aArray = line.text.match(/\[(.*?)\]\((.*?)\)/g);
   if (aArray !== null) {
     //console.log(aArray)
     aArray.forEach(function (item, index) {
       var old = item;
       // 匹配到名字 和 链接
-      var text1 = old.match(/\[(.*)\]/);
+      var text1 = old.match(/\[(.*?)\]/);
       var name = text1[0].substring(1, text1[0].length - 1);
-      var text2 = old.match(/\((.*)\)/);
+      var text2 = old.match(/\((.*?)\)/);
       var url = text2[0].substring(1, text2[0].length - 1);
       line.text = line.text.replace(old, '<a href="' + url + '" target="_blank">' + name + '</a>');
     });
@@ -2990,7 +3021,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "* {\n  margin: 0;\n  padding: 0; }\n\n#app {\n  position: relative;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  width: 100%;\n  min-height: 100vh;\n  overflow-x: hidden; }\n\n.x-md {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  width: 49.5%;\n  background-color: #272822;\n  color: #F8F8F2;\n  line-height: 20px;\n  font-size: 14px; }\n\n.x-md .md-order {\n  padding-top: 10px;\n  width: 35px;\n  height: 100%;\n  background-color: #2f3129; }\n\n.x-md .md-order .order-item {\n  width: 100%;\n  text-align: center; }\n\n.x-md .md-order .order-activity {\n  background-color: #272822; }\n\n.x-md .md-show {\n  outline: none;\n  padding: 10px;\n  width: calc(100% - 35px);\n  overflow-x: auto; }\n\n.x-md .md-show p {\n  white-space: nowrap; }\n\n.x-border {\n  width: 0.5%;\n  margin-left: 0.5%;\n  border-left: 3px dashed #CCC; }\n\n.x-show {\n  font-family: \"Helvetica Neue\", Helvetica, \"Hiragino Sans GB\", Arial, sans-serif;\n  width: 49.5%;\n  padding: 10px; }\n\n.x-show h1, .x-show h2, .x-show h3, .x-show h4, .x-show h5, .x-show h6 {\n  color: #404040;\n  line-height: 36px; }\n\n.x-show h1 {\n  font-size: 30px; }\n\n.x-show h2 {\n  font-size: 24px; }\n\n.x-show p {\n  font-size: 14px;\n  line-height: 18px;\n  color: #737373; }\n\n.x-show a {\n  color: #0069d6; }\n", ""]);
+exports.push([module.i, "* {\n  margin: 0;\n  padding: 0; }\n\n#app {\n  position: relative;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  width: 100%;\n  min-height: 100vh;\n  overflow-x: hidden; }\n\n.x-md {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  width: 49.5%;\n  background-color: #272822;\n  color: #F8F8F2;\n  line-height: 20px;\n  font-size: 14px; }\n\n.x-md .md-order {\n  padding-top: 10px;\n  width: 35px;\n  height: 100%;\n  background-color: #2f3129; }\n\n.x-md .md-order .order-item {\n  width: 100%;\n  text-align: center; }\n\n.x-md .md-order .order-activity {\n  background-color: #272822; }\n\n.x-md .md-show {\n  outline: none;\n  padding: 10px;\n  width: calc(100% - 35px);\n  overflow-x: auto; }\n\n.x-md .md-show p {\n  white-space: nowrap; }\n\n.x-border {\n  width: 0.5%;\n  margin-left: 0.5%;\n  border-left: 3px dashed #CCC; }\n\n.x-show {\n  font-family: \"Helvetica Neue\", Helvetica, \"Hiragino Sans GB\", Arial, sans-serif;\n  width: 49.5%;\n  padding: 10px; }\n\n.x-show h1, .x-show h2, .x-show h3, .x-show h4, .x-show h5, .x-show h6 {\n  color: #404040;\n  line-height: 36px; }\n\n.x-show h1 {\n  font-size: 30px; }\n\n.x-show h2 {\n  font-size: 24px; }\n\n.x-show p {\n  font-size: 14px;\n  line-height: 18px;\n  color: #737373; }\n\n.x-show a {\n  color: #0069d6; }\n\n.x-show a:hover {\n  text-decoration: none; }\n", ""]);
 
 // exports
 
@@ -3424,15 +3455,6 @@ module.exports = function (css) {
 	// send back the fixed css
 	return fixedCss;
 };
-
-
-/***/ }),
-
-/***/ 0:
-/***/ (function(module, exports, __webpack_require__) {
-
-__webpack_require__("./index.js");
-(function webpackMissingModule() { throw new Error("Cannot find module \"buil\""); }());
 
 
 /***/ })

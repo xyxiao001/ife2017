@@ -11,7 +11,9 @@ window.onload = () => {
    <p>#### 五级标题</p>
    <p>测试a链接的识别  [百度](http://baidu.com)</p>
    <p>**我是加粗的文字**   **我也是加粗的** **我是粗体**  **[加粗的 a 链接](http://xyxiao.cn/vue-blog/#/)**</p>
-   <p>*我是斜体*   *[斜的 a 链接](http://xyxiao.cn/vue-blog/#/)*</p>`
+   <p>*我是斜体*   *[斜的 a 链接](http://xyxiao.cn/vue-blog/#/)*</p>
+   <p>图片测试 ![空链接图片]()</p>
+   <p>图片测试 ![goodboy](http://ofyaji162.bkt.clouddn.com/touxiang.jpg)</p>`
   createLine()
   update()
 }
@@ -138,6 +140,21 @@ var reg = (data, index) => {
     em.forEach((item, index) => {
       emText = item.substring(1, item.length - 1)
       line.text = line.text.replace(item, `<em>${emText}</em>`)
+    })
+  }
+
+  // 识别图片
+  var imgArray = line.text.match(/!\[(.*?)\]\((.*?)\)/g)
+  if (imgArray) {
+    //console.log(aArray)
+    imgArray.forEach((item, index) => {
+      var old = item
+      // 匹配到名字 和 链接
+      var text1 = old.match(/\[(.*?)\]/)
+      var name = text1[0].substring(2, text1[0].length - 1)
+      var text2 = old.match(/\((.*?)\)/)
+      var url =  text2[0].substring(1, text2[0].length - 1)
+      line.text = line.text.replace(old, `<img src="${url}" alt="${name}" />`)
     })
   }
 
