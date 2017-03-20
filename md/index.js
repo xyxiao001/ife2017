@@ -2,7 +2,16 @@
 require('./index.scss')
 window.onload = () => {
   var data = window.localStorage.getItem('md')
-  dom.show.innerHTML = data ? data : '<p># 开始你的markdown之旅</p>'
+  dom.show.innerHTML = data ? data :
+  `<p># 一级标题   [我是超链接](http://xyxiao.cn/vue-blog/#/)   [博客](http://xyxiao.cn/vue-blog/#/)  **123**</p>
+   <p>## 二级标题  [我是也是超链接](http://xyxiao.cn/vue-blog/#/)</p>
+   <p>### 三级标题 [我还是超链接](http://xyxiao.cn/vue-blog/#/)</p>
+   <p>#### 四级标题   **我是加粗的四级标题**</p>
+   <p>#### 四级标题</p>
+   <p>#### 五级标题</p>
+   <p>测试a链接的识别  [百度](http://baidu.com)</p>
+   <p>**我是加粗的文字**   **我也是加粗的** **我是粗体**  **[加粗的 a 链接](http://xyxiao.cn/vue-blog/#/)**</p>
+   <p>*我是斜体*   *[斜的 a 链接](http://xyxiao.cn/vue-blog/#/)*</p>`
   createLine()
   update()
 }
@@ -90,13 +99,13 @@ var reg = (data, index) => {
   // 匹配 看需要输出为什么内容
   var line = {}
   if (data.search(/\#( .*?)/) === 0) {
-    data = data.replace('# ', '')
+    data = data.replace('#', '')
     line.type = 'h1'
   } else if (data.search(/\##( .*?)/) === 0) {
-    data = data.replace('## ', '')
+    data = data.replace('##', '')
     line.type = 'h2'
   } else if (data.search(/\###( .*?)/) === 0) {
-    data = data.replace('### ', '')
+    data = data.replace('###', '')
     line.type = 'h3'
   } else if (data.search(/\####( .*?)/) === 0) {
     data = data.replace('#### ', '')
@@ -113,19 +122,35 @@ var reg = (data, index) => {
   }
   line.text = data
   // 加粗判断
+  var strong = line.text.match(/\*\*(.*?)\*\*/g)
+  var strongText = ''
+  if (strong) {
+    strong.forEach((item, index) => {
+      strongText = item.substring(2, item.length - 2)
+      line.text = line.text.replace(item, `<strong>${strongText}</strong>`)
+    })
+  }
 
   // 斜体
+  var em = line.text.match(/\*(.*?)\*/g)
+  var emText = ''
+  if (em) {
+    em.forEach((item, index) => {
+      emText = item.substring(1, item.length - 1)
+      line.text = line.text.replace(item, `<em>${emText}</em>`)
+    })
+  }
 
   // 超链接
-  var aArray = line.text.match(/\[(.*)\]\((.*)\)/g)
+  var aArray = line.text.match(/\[(.*?)\]\((.*?)\)/g)
   if (aArray !== null) {
     //console.log(aArray)
     aArray.forEach((item, index) => {
       var old = item
       // 匹配到名字 和 链接
-      var text1 = old.match(/\[(.*)\]/)
+      var text1 = old.match(/\[(.*?)\]/)
       var name = text1[0].substring(1, text1[0].length - 1)
-      var text2 = old.match(/\((.*)\)/)
+      var text2 = old.match(/\((.*?)\)/)
       var url =  text2[0].substring(1, text2[0].length - 1)
       line.text = line.text.replace(old, `<a href="${url}" target="_blank">${name}</a>`)
     })

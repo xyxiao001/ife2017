@@ -82,5 +82,8 @@ $black2: #2f3129;
 
   a {
     color: #0069d6;
+    &:hover {
+      text-decoration: none;
+    }
   }
 }
