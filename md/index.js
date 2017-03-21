@@ -3,17 +3,20 @@ require('./index.scss')
 window.onload = () => {
   var data = window.localStorage.getItem('md')
   dom.show.innerHTML = data ? data :
-  `<p># 一级标题   [我是超链接](http://xyxiao.cn/vue-blog/#/)   [博客](http://xyxiao.cn/vue-blog/#/)  **123**</p>
-   <p>## 二级标题  [我是也是超链接](http://xyxiao.cn/vue-blog/#/)</p>
-   <p>### 三级标题 [我还是超链接](http://xyxiao.cn/vue-blog/#/)</p>
-   <p>#### 四级标题   **我是加粗的四级标题**</p>
-   <p>#### 四级标题</p>
-   <p>#### 五级标题</p>
-   <p>测试a链接的识别  [百度](http://baidu.com)</p>
-   <p>**我是加粗的文字**   **我也是加粗的** **我是粗体**  **[加粗的 a 链接](http://xyxiao.cn/vue-blog/#/)**</p>
-   <p>*我是斜体*   *[斜的 a 链接](http://xyxiao.cn/vue-blog/#/)*</p>
-   <p>图片测试 ![空链接图片]()</p>
-   <p>图片测试 ![goodboy](http://ofyaji162.bkt.clouddn.com/touxiang.jpg)</p>`
+  `# 一级标题   [我是超链接](http://xyxiao.cn/vue-blog/#/)   [博客](http://xyxiao.cn/vue-blog/#/)  **123**
+  ## 二级标题  [我是也是超链接](http://xyxiao.cn/vue-blog/#/)
+  ### 三级标题 [我还是超链接](http://xyxiao.cn/vue-blog/#/)
+  #### 四级标题   **我是加粗的四级标题**
+  #### 四级标题
+  #### 五级标题
+  ###### 六级标题 [百度](http://baidu.com) **123**
+  测试a链接的识别  [百度](http://baidu.com)
+  **我是加粗的文字**   **我也是加粗的** **我是粗体**  **[加粗的 a 链接](http://xyxiao.cn/vue-blog/#/)** *123*
+  *我是斜体*   *[斜的 a 链接](http://xyxiao.cn/vue-blog/#/)*   **112粗**
+  > 这是引用块， 哈哈哈哈哈
+  > 我也是
+  图片测试 ![空链接图片]()
+  ## **图片测试**  ![goodboy](http://ofyaji162.bkt.clouddn.com/touxiang.jpg)`
   createLine()
   update()
 }
