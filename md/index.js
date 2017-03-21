@@ -118,6 +118,9 @@ var reg = (data, index) => {
   } else if (data.search(/\######( .*?)/) === 0) {
     data = data.replace('###### ', '')
     line.type = 'h6'
+  } else if (data.search(/\&gt;/) === 0) {
+    data = data.replace('&gt;', '')
+    line.type = 'blockquote'
   } else {
     // 判断下面的
     line.type = 'p'
@@ -209,6 +212,11 @@ var createShow = () => {
       var h6 = document.createElement('h6')
       h6.innerHTML = item.text
       dom.preview.appendChild(h6)
+      break
+      case 'blockquote':
+      var blockquote = document.createElement('blockquote')
+      blockquote.innerHTML = item.text
+      dom.preview.appendChild(blockquote)
       break
       case 'p':
         var p = document.createElement('p')

@@ -11,7 +11,7 @@ $black2: #2f3129;
   display: flex;
   width: 100%;
   min-height: 100vh;
-  overflow-x: hidden;
+  overflow: hidden;
 }
 
 .x-md {
@@ -58,8 +58,8 @@ $black2: #2f3129;
 
 .x-show {
   font-family: "Helvetica Neue", Helvetica, "Hiragino Sans GB", Arial, sans-serif;
-  width: 49.5%;
-  padding: 10px;
+  width: 47%;
+  padding: 2%;
 
   h1, h2, h3, h4, h5, h6 {
     color: #404040;
@@ -85,5 +85,13 @@ $black2: #2f3129;
     &:hover {
       text-decoration: none;
     }
+  }
+
+  blockquote {
+    padding: 13px 13px 21px 15px;
+    margin-bottom: 18px;
+    font-family: georgia,serif;
+    font-style: italic;
+    color: #737373;
   }
 }

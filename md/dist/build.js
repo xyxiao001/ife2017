@@ -59,7 +59,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "744b3f263d934a287eca"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "2d5a971f99d442ffb79f"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotMainModule = true; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
@@ -825,6 +825,9 @@ var reg = function reg(data, index) {
   } else if (data.search(/\######( .*?)/) === 0) {
     data = data.replace('###### ', '');
     line.type = 'h6';
+  } else if (data.search(/\&gt;/) === 0) {
+    data = data.replace('&gt;', '');
+    line.type = 'blockquote';
   } else {
     // 判断下面的
     line.type = 'p';
@@ -916,6 +919,11 @@ var createShow = function createShow() {
         var h6 = document.createElement('h6');
         h6.innerHTML = item.text;
         dom.preview.appendChild(h6);
+        break;
+      case 'blockquote':
+        var blockquote = document.createElement('blockquote');
+        blockquote.innerHTML = item.text;
+        dom.preview.appendChild(blockquote);
         break;
       case 'p':
         var p = document.createElement('p');
@@ -3021,7 +3029,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "* {\n  margin: 0;\n  padding: 0; }\n\n#app {\n  position: relative;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  width: 100%;\n  min-height: 100vh;\n  overflow-x: hidden; }\n\n.x-md {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  width: 49.5%;\n  background-color: #272822;\n  color: #F8F8F2;\n  line-height: 20px;\n  font-size: 14px; }\n\n.x-md .md-order {\n  padding-top: 10px;\n  width: 35px;\n  height: 100%;\n  background-color: #2f3129; }\n\n.x-md .md-order .order-item {\n  width: 100%;\n  text-align: center; }\n\n.x-md .md-order .order-activity {\n  background-color: #272822; }\n\n.x-md .md-show {\n  outline: none;\n  padding: 10px;\n  width: calc(100% - 35px);\n  overflow-x: auto; }\n\n.x-md .md-show p {\n  white-space: nowrap; }\n\n.x-border {\n  width: 0.5%;\n  margin-left: 0.5%;\n  border-left: 3px dashed #CCC; }\n\n.x-show {\n  font-family: \"Helvetica Neue\", Helvetica, \"Hiragino Sans GB\", Arial, sans-serif;\n  width: 49.5%;\n  padding: 10px; }\n\n.x-show h1, .x-show h2, .x-show h3, .x-show h4, .x-show h5, .x-show h6 {\n  color: #404040;\n  line-height: 36px; }\n\n.x-show h1 {\n  font-size: 30px; }\n\n.x-show h2 {\n  font-size: 24px; }\n\n.x-show p {\n  font-size: 14px;\n  line-height: 18px;\n  color: #737373; }\n\n.x-show a {\n  color: #0069d6; }\n\n.x-show a:hover {\n  text-decoration: none; }\n", ""]);
+exports.push([module.i, "* {\n  margin: 0;\n  padding: 0; }\n\n#app {\n  position: relative;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  width: 100%;\n  min-height: 100vh;\n  overflow: hidden; }\n\n.x-md {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  width: 49.5%;\n  background-color: #272822;\n  color: #F8F8F2;\n  line-height: 20px;\n  font-size: 14px; }\n\n.x-md .md-order {\n  padding-top: 10px;\n  width: 35px;\n  height: 100%;\n  background-color: #2f3129; }\n\n.x-md .md-order .order-item {\n  width: 100%;\n  text-align: center; }\n\n.x-md .md-order .order-activity {\n  background-color: #272822; }\n\n.x-md .md-show {\n  outline: none;\n  padding: 10px;\n  width: calc(100% - 35px);\n  overflow-x: auto; }\n\n.x-md .md-show p {\n  white-space: nowrap; }\n\n.x-border {\n  width: 0.5%;\n  margin-left: 0.5%;\n  border-left: 3px dashed #CCC; }\n\n.x-show {\n  font-family: \"Helvetica Neue\", Helvetica, \"Hiragino Sans GB\", Arial, sans-serif;\n  width: 47%;\n  padding: 2%; }\n\n.x-show h1, .x-show h2, .x-show h3, .x-show h4, .x-show h5, .x-show h6 {\n  color: #404040;\n  line-height: 36px; }\n\n.x-show h1 {\n  font-size: 30px; }\n\n.x-show h2 {\n  font-size: 24px; }\n\n.x-show p {\n  font-size: 14px;\n  line-height: 18px;\n  color: #737373; }\n\n.x-show a {\n  color: #0069d6; }\n\n.x-show a:hover {\n  text-decoration: none; }\n\n.x-show blockquote {\n  padding: 13px 13px 21px 15px;\n  margin-bottom: 18px;\n  font-family: georgia,serif;\n  font-style: italic;\n  color: #737373; }\n", ""]);
 
 // exports
 
