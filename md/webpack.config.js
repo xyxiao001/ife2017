@@ -49,7 +49,18 @@ module.exports = {
    new webpack.HotModuleReplacementPlugin(),
    // 开启全局的模块热替换(HMR)
   //  new ExtractTextPlugin("index.scss")
-   new webpack.NamedModulesPlugin()
-   // 当模块热替换(HMR)时在浏览器控制台输出对用户更友好的模块名字信息
+  // 当模块热替换(HMR)时在浏览器控制台输出对用户更友好的模块名字信息
+   new webpack.NamedModulesPlugin(),
+   // 压缩
+   new webpack.LoaderOptionsPlugin({
+     minimize: true
+   }),
+   new webpack.optimize.UglifyJsPlugin({
+     beautify: false,
+     comments: false,
+     compress: {
+       warnings: false
+     }
+    })
  ],
 }
