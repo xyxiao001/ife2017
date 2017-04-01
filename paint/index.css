@@ -1,0 +1,25 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+.container {
+  width: 100vw;
+  height: 100vh;
+}
+
+#paint {
+  /*width: calc(100vw - 250px);
+  height: 100vh;*/
+  box-sizing: border-box;
+  border: 1px solid black;
+  cursor: auto;
+}
+
+.control {
+  /*width: 250px;*/
+  user-select: none;
+}
+
+.control p {
+  padding: 5px;
+}
