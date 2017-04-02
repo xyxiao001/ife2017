@@ -16,14 +16,17 @@ ctx.lineCap = 'round'
 paint.addEventListener('mousedown', function () {
   console.log('start')
   paint.addEventListener('mousemove', move)
+  paint.addEventListener('mouseleave', end)
 })
 
-paint.addEventListener('mouseup', function () {
+paint.addEventListener('mouseup', end)
+
+function end() {
   console.log('end')
   options.lastX = -1
   options.lastY = -1
   paint.removeEventListener('mousemove', move)
-})
+}
 
 // 移动函数
 function move(e) {
