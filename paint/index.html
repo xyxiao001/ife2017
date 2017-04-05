@@ -12,6 +12,16 @@
       <div class="control">
         <p>说明:</p>
         <p>按住鼠标左键即可开始画画</p>
+        <div class="control-item">
+          <span>画笔宽度:</span>
+          <span id="lineText">2px</span>
+          <input type="range" value="2" min="1" max="20" id="lineWidth">
+        </div>
+        <div class="control-item">
+          <span>画笔颜色:</span>
+          <span id="lineTextColor">#1d1d1d</span>
+          <input type="color" id="lineColor" value="#1d1d1d">
+        </div>
         <button id="clear" class="btn">清除画布</button>
         <button id="report" class="btn">导出图片</button>
         <button id="pre" class="btn">上一步</button>

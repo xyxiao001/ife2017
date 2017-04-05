@@ -23,5 +23,16 @@
 }
 
 .control p {
+  line-height: 25px;
   padding: 5px 0px;
+}
+
+.control-item span {
+  display: inline-block;
+  line-height: 30px;
+}
+
+.control-item input {
+  height: 30px;
+  line-height: 30px;
 }

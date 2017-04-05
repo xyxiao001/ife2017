@@ -1,6 +1,6 @@
 'use strict'
 var options = {
-  color: '#00000',
+  color: '#1d1d1d',
   width: 1000,
   height: 500,
   lineWidth: 2,
@@ -17,12 +17,11 @@ paint.width = options.width = document.body.clientWidth - 2
 paint.height = options.height = document.body.clientHeight - 202
 var ctx = paint.getContext('2d')
 
-// 更新画笔
-updatePen()
-
 // 开始画画
 paint.addEventListener('mousedown', function () {
   console.log('start')
+  // 更新画笔
+  updatePen()
   options.now += 1
   options.history.push([])
   paint.addEventListener('mousemove', move)
@@ -76,6 +75,8 @@ function move(e) {
   var x = e.clientX ? e.clientX : e.touches[0].clientX
   var y = e.clientY ? e.clientY : e.touches[0].clientY
   options.history[options.now - 1].push({
+    width: options.lineWidth,
+    color: options.color,
     x: x,
     y: y
   })
@@ -122,6 +123,8 @@ function updateCanvas() {
     ctx.beginPath()
     ctx.moveTo(val[0].x, val[0].y)
     for (var i = 1; i < val.length - 1; i++) {
+      ctx.strokeStyle = val[i].color
+      ctx.lineWidth = val[i].width
       var c = (val[i].x + val[i + 1].x) / 2;
       var d = (val[i].y + val[i + 1].y) / 2;
       ctx.quadraticCurveTo(val[i].x, val[i].y, c, d)
@@ -129,5 +132,19 @@ function updateCanvas() {
     ctx.stroke()
   })
 }
+
+// 改变画笔宽度
+document.querySelector('#lineWidth').addEventListener('change', function (e) {
+  var val = e.target.value
+  options.lineWidth = val
+  document.querySelector('#lineText').innerHTML = val + 'px'
+})
+
+// 改变颜色
+document.querySelector('#lineColor').addEventListener('change', function (e) {
+  var val = e.target.value
+  options.color = val
+  document.querySelector('#lineTextColor').innerHTML = val
+})
 
 //下载  a.href = window.URL.createObjectURL(blob)
