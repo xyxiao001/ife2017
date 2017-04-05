@@ -120,7 +120,7 @@ function updateCanvas() {
   options.history.forEach(function(val, index) {
     ctx.beginPath()
     ctx.moveTo(val[0].x, val[0].y)
-    for (var i = 1; i < val.length - 2; i++) {
+    for (var i = 1; i < val.length - 1; i++) {
       var c = (val[i].x + val[i + 1].x) / 2;
       var d = (val[i].y + val[i + 1].y) / 2;
       ctx.quadraticCurveTo(val[i].x, val[i].y, c, d)
@@ -128,3 +128,5 @@ function updateCanvas() {
     ctx.stroke()
   })
 }
+
+//下载  a.href = window.URL.createObjectURL(blob)
