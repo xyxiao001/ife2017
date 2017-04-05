@@ -12,6 +12,9 @@ var options = {
 
 // 获取画布节点
 var paint = document.getElementById('paint')
+// 设置canvas
+paint.width = options.width = document.body.clientWidth
+paint.height = options.height = document.body.clientHeight - 200
 var ctx = paint.getContext('2d')
 
 // 更新画笔
@@ -24,6 +27,14 @@ paint.addEventListener('mousedown', function () {
   options.history.push([])
   paint.addEventListener('mousemove', move)
   paint.addEventListener('mouseleave', end)
+})
+
+paint.addEventListener('touchstart', function () {
+  console.log('start')
+  options.now += 1
+  options.history.push([])
+  paint.addEventListener('touchmove', move)
+  paint.addEventListener('touchend', end)
 })
 
 paint.addEventListener('mouseup', end)
@@ -55,13 +66,14 @@ function end() {
   console.log('end')
   options.lastX = -1
   options.lastY = -1
+  paint.removeEventListener('touchmove', move)
   paint.removeEventListener('mousemove', move)
 }
 
 // 移动函数
 function move(e) {
-  var x = e.clientX
-  var y = e.clientY
+  var x = e.clientX ? e.clientX : e.touches[0].clientX
+  var y = e.clientY ? e.clientY : e.touches[0].clientY
   options.history[options.now - 1].push({
     x: x,
     y: y
