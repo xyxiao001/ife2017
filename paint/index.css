@@ -5,6 +5,7 @@
 .container {
   width: 100vw;
   height: 100vh;
+  overflow-x: hidden;
 }
 
 #paint {
@@ -17,9 +18,10 @@
 
 .control {
   /*width: 250px;*/
+  padding: 5px;
   user-select: none;
 }
 
 .control p {
-  padding: 5px;
+  padding: 5px 0px;
 }

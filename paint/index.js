@@ -1,6 +1,7 @@
 'use strict'
 var options = {
   color: '#00000',
+  lineWidth: 2,
   lastX: -1,
   lastY: -1,
 }
@@ -8,9 +9,9 @@ var options = {
 // 获取画布节点
 var paint = document.getElementById('paint')
 var ctx = paint.getContext('2d')
-ctx.strokeStyle= '#000'
-ctx.lineWidth = 2
-ctx.lineCap = 'round'
+
+// 更新画笔
+updatePen()
 
 // 开始画画
 paint.addEventListener('mousedown', function () {
@@ -20,6 +21,14 @@ paint.addEventListener('mousedown', function () {
 })
 
 paint.addEventListener('mouseup', end)
+
+// 清除画布
+document.querySelector('#clear').addEventListener('click', function () {
+  clear(0, 0, 1000, 500)
+})
+
+// 导出图片
+document.querySelector('#report').addEventListener('click', report)
 
 function end() {
   console.log('end')
@@ -49,4 +58,19 @@ function draw(x, y) {
   ctx.lineTo(x, y)
   ctx.closePath()
   ctx.stroke()
+}
+
+function updatePen() {
+  ctx.strokeStyle= options.color
+  ctx.lineWidth = options.lineWidth
+  ctx.lineCap = 'round'
+}
+
+function clear(x, y, w, h) {
+  ctx.clearRect(x, y, w, h)
+}
+
+function report() {
+	window.open(paint.toDataURL())
+  console.log('导出图片')
 }
