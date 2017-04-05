@@ -13,8 +13,8 @@ var options = {
 // 获取画布节点
 var paint = document.getElementById('paint')
 // 设置canvas
-paint.width = options.width = document.body.clientWidth
-paint.height = options.height = document.body.clientHeight - 200
+paint.width = options.width = document.body.clientWidth - 2
+paint.height = options.height = document.body.clientHeight - 202
 var ctx = paint.getContext('2d')
 
 // 更新画笔
@@ -125,7 +125,6 @@ function updateCanvas() {
       var d = (val[i].y + val[i + 1].y) / 2;
       ctx.quadraticCurveTo(val[i].x, val[i].y, c, d)
     }
-    // ctx.quadraticCurveTo(val[i].x, val[i].y, val[i + 1].x, val[i + 1].y)
     ctx.stroke()
   })
 }
