@@ -72,6 +72,7 @@ function end() {
 
 // 移动函数
 function move(e) {
+  e.preventDefault()
   var x = e.clientX ? e.clientX : e.touches[0].clientX
   var y = e.clientY ? e.clientY : e.touches[0].clientY
   options.history[options.now - 1].push({
