@@ -22,6 +22,7 @@ paint.addEventListener('mousedown', function () {
   console.log('start')
   // 更新画笔
   updatePen()
+  console.log(options.history)
   options.now += 1
   options.history.push([])
   paint.addEventListener('mousemove', move)
@@ -30,6 +31,8 @@ paint.addEventListener('mousedown', function () {
 
 paint.addEventListener('touchstart', function () {
   console.log('start')
+  // 更新画笔
+  updatePen()
   options.now += 1
   options.history.push([])
   paint.addEventListener('touchmove', move)
@@ -65,6 +68,10 @@ function end() {
   console.log('end')
   options.lastX = -1
   options.lastY = -1
+  if (options.history[options.now - 1].length <= 0) {
+    options.history.pop()
+    options.now -= 1
+  }
   paint.removeEventListener('touchmove', move)
   paint.removeEventListener('mousemove', move)
 }
