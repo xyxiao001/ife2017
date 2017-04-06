@@ -23,6 +23,8 @@ function readHistory() {
   if (h) {
     h = JSON.parse(h)
     options = h
+    options.width = paint.width
+    options.height = paint.height
     document.querySelector('#lineWidth').value = options.lineWidth
     document.querySelector('#lineText').innerHTML = options.lineWidth + 'px'
     document.querySelector('#lineColor').value = options.color
@@ -62,6 +64,7 @@ document.querySelector('#clear').addEventListener('click', function () {
   clear(0, 0, options.width, options.height)
   options.now = 0
   options.history = []
+  updateCanvas()
   save()
 })
 
