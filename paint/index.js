@@ -23,6 +23,10 @@ function readHistory() {
   if (h) {
     h = JSON.parse(h)
     options = h
+    document.querySelector('#lineWidth').value = options.lineWidth
+    document.querySelector('#lineText').innerHTML = options.lineWidth + 'px'
+    document.querySelector('#lineColor').value = options.color
+    document.querySelector('#lineTextColor').innerHTML = options.color
     updateCanvas()
   }
 }
@@ -71,6 +75,7 @@ document.querySelector('#pre').addEventListener('click', function () {
     arr.pop()
     options.now -= 1
     updateCanvas()
+
     save()
   } else {
     console.log(options.history)
