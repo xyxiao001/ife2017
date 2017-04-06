@@ -17,12 +17,24 @@ paint.width = options.width = document.body.clientWidth - 2
 paint.height = options.height = document.body.clientHeight - 202
 var ctx = paint.getContext('2d')
 
+// 读取本地记录
+function readHistory() {
+  var h = window.localStorage.getItem('paint')
+  if (h) {
+    h = JSON.parse(h)
+    options = h
+    updateCanvas()
+  }
+}
+
+readHistory()
+
 // 开始画画
 paint.addEventListener('mousedown', function () {
   console.log('start')
   // 更新画笔
   updatePen()
-  console.log(options.history)
+  // console.log(options.history)
   options.now += 1
   options.history.push([])
   paint.addEventListener('mousemove', move)
@@ -46,6 +58,7 @@ document.querySelector('#clear').addEventListener('click', function () {
   clear(0, 0, options.width, options.height)
   options.now = 0
   options.history = []
+  save()
 })
 
 // 导出图片
@@ -58,6 +71,7 @@ document.querySelector('#pre').addEventListener('click', function () {
     arr.pop()
     options.now -= 1
     updateCanvas()
+    save()
   } else {
     console.log(options.history)
     console.log('已经回退完了')
@@ -72,6 +86,8 @@ function end() {
     options.history.pop()
     options.now -= 1
   }
+  // 保存画布到本地
+  save()
   paint.removeEventListener('touchmove', move)
   paint.removeEventListener('mousemove', move)
 }
@@ -155,3 +171,8 @@ document.querySelector('#lineColor').addEventListener('change', function (e) {
 })
 
 //下载  a.href = window.URL.createObjectURL(blob)
+
+// 保存函数
+function save() {
+  window.localStorage.setItem('paint', JSON.stringify(options))
+}
