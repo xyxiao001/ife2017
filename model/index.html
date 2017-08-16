@@ -5,7 +5,33 @@
     <title>模板方法模式</title>
   </head>
   <body>
+    <pre>
+      // 父类
+      var Beverage = function () {}
 
+      Beverage.prototype .boilWater = function () {
+        console.log('把水煮沸')
+      }
+
+      Beverage.prototype.brew = function () {}
+
+      // 子类重写
+      Beverage.prototype.pourInCup = function () {}
+
+      // 子类重写
+      Beverage.prototype.addCondiments = function () {}
+
+      Beverage.prototype.init = function () {
+        this.boilWater()
+        this.brew()
+        this.pourInCup()
+        this.addCondiments()
+      }
+
+      // 咖啡类
+      var Coffer = function () {}
+      Coffer.prototype = new Beverage()
+    </pre>
     <script type="text/javascript">
     'use strict'
       // 父类
