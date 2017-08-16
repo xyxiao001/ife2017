@@ -15,10 +15,12 @@
 
       var Folder = function (name) {
         this.name = name
+        this.parent = null
         this.files = []
       }
 
       Folder.prototype.add = function (file) {
+        file.parent = this
         this.files.push(file)
       }
 
@@ -29,8 +31,21 @@
         }
       }
 
+      Folder.prototype.remove = function () {
+        if (!this.parent) {
+          return
+        }
+        for (var files = this.parent.files, l = files.length - 1; l >= 0; l--) {
+          var file = files[l]
+          if (file === this) {
+            files.splice(l, 1)
+          }
+        }
+      }
+
       var File = function (name) {
         this.name = name
+        this.parent = null
       }
 
       File.prototype.add = function () {
@@ -39,6 +54,18 @@
 
       File.prototype.scan = function () {
         console.log('开始扫描文件' + this.name )
+      }
+
+      File.prototype.remove = function () {
+        if (!this.parent) {
+          return
+        }
+        for (var files = this.parent.files, l = files.length - 1; l >= 0; l--) {
+          var file = files[l]
+          if (file === this) {
+            files.splice(l, 1)
+          }
+        }
       }
 
       var folder = new Folder('学习资料')
@@ -69,6 +96,11 @@
 
       button.addEventListener('click', function () {
         folder.scan()
+        console.log('第二次 remove之后')
+        folder1.remove()
+        folder2.remove()
+        folder3.remove()
+        folder.scan()
       })
     </pre>
     <script type="text/javascript">
@@ -77,10 +109,12 @@
 
       var Folder = function (name) {
         this.name = name
+        this.parent = null
         this.files = []
       }
 
       Folder.prototype.add = function (file) {
+        file.parent = this
         this.files.push(file)
       }
 
@@ -91,8 +125,21 @@
         }
       }
 
+      Folder.prototype.remove = function () {
+        if (!this.parent) {
+          return
+        }
+        for (var files = this.parent.files, l = files.length - 1; l >= 0; l--) {
+          var file = files[l]
+          if (file === this) {
+            files.splice(l, 1)
+          }
+        }
+      }
+
       var File = function (name) {
         this.name = name
+        this.parent = null
       }
 
       File.prototype.add = function () {
@@ -101,6 +148,18 @@
 
       File.prototype.scan = function () {
         console.log('开始扫描文件' + this.name )
+      }
+
+      File.prototype.remove = function () {
+        if (!this.parent) {
+          return
+        }
+        for (var files = this.parent.files, l = files.length - 1; l >= 0; l--) {
+          var file = files[l]
+          if (file === this) {
+            files.splice(l, 1)
+          }
+        }
       }
 
       var folder = new Folder('学习资料')
@@ -130,6 +189,11 @@
 
 
       button.addEventListener('click', function () {
+        folder.scan()
+        console.log('第二次 remove之后')
+        folder1.remove()
+        folder2.remove()
+        folder3.remove()
         folder.scan()
       })
     </script>
