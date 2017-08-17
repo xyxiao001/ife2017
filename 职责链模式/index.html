@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>职责链模式</title>
+  </head>
+  <style media="screen">
+    pre {
+      font-size: 16px;
+    }
+  </style>
+  <body>
+    <pre>
+      职责链模式的定义是：使多个对象都有机会处理请求，从而避免请求的发送者和接收者之间
+      的耦合关系，将这些对象连成一条链，并沿着这条链传递该请求，直到有一个对象处理它为止。
+    </pre>
+    <script type="text/javascript">
+      'use strict'
+      var order500 = function (orderType, pay, stock) {
+        if (orderType === 1 && pay === true) {
+          console.log('500定金预购， 得到100元优惠券')
+        } else {
+          order200(orderType, pay, stock)
+        }
+      }
+
+      var order200 = function (orderType, pay, stock) {
+        if (orderType === 2 && pay === true) {
+          console.log('200定金预购， 得到50元优惠券')
+        } else {
+          orderNormal(orderType, pay, stock)
+        }
+      }
+
+      var orderNormal = function (orderType, pay, stock) {
+        if (stock > 0) {
+          console.log('普通购买， 无优惠券')
+        } else {
+          console.log('手机库存不足')
+        }
+      }
+
+      order500( 1 , true, 500)
+      order500( 1, false, 500 )
+      order500( 2, true, 500 )
+      order500( 3, false, 500 )
+      order500( 3, false, 0 );
+    </script>
+  </body>
+</html>
