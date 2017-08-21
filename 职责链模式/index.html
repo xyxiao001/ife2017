@@ -13,38 +13,313 @@
     <pre>
       职责链模式的定义是：使多个对象都有机会处理请求，从而避免请求的发送者和接收者之间
       的耦合关系，将这些对象连成一条链，并沿着这条链传递该请求，直到有一个对象处理它为止。
+      <br/>
+      职责链模式的最大优点就是解耦了请求发送者和 N 个接收者之间的复杂关
+      系，由于不知道链中的哪个节点可以处理你发出的请求，所以你只需把请求传递给第一个节点即
+      可，
+      <pre>
+        'use strict'
+        ;(function () {
+          // 普通的处理方式
+          var order500 = function (orderType, pay, stock) {
+            if (orderType === 1 && pay === true) {
+              console.log('500定金预购， 得到100元优惠券')
+            } else {
+              order200(orderType, pay, stock)
+            }
+          }
+
+          var order200 = function (orderType, pay, stock) {
+            if (orderType === 2 && pay === true) {
+              console.log('200定金预购， 得到50元优惠券')
+            } else {
+              orderNormal(orderType, pay, stock)
+            }
+          }
+
+          var orderNormal = function (orderType, pay, stock) {
+            if (stock > 0) {
+              console.log('普通购买， 无优惠券')
+            } else {
+              console.log('手机库存不足')
+            }
+          }
+
+          order500( 1 , true, 500)
+          order500( 1, false, 500 )
+          order500( 2, true, 500 )
+          order500( 3, false, 500 )
+          order500( 3, false, 0 );
+        }())
+
+        ;(function () {
+          console.log('next')
+          // 利用职责链处理
+          var order500 = function (orderType, pay, stock) {
+            if (orderType === 1 && pay === true) {
+              console.log('500定金预购， 得到100元优惠券')
+            } else {
+              return 'nextSuccessor'
+            }
+          }
+
+          var order200 = function (orderType, pay, stock) {
+            if (orderType === 2 && pay === true) {
+              console.log('200定金预购， 得到50元优惠券')
+            } else {
+              return 'nextSuccessor'
+            }
+          }
+
+          var orderNormal = function (orderType, pay, stock) {
+            if (stock > 0) {
+              console.log('普通购买， 无优惠券')
+            } else {
+              console.log('手机库存不足')
+            }
+          }
+
+          var Chain = function (fn) {
+            this.fn = fn
+            this.successor = null
+          }
+
+          Chain.prototype.setNextSuccessor = function (successor) {
+            return this.successor = successor
+          }
+
+          Chain.prototype.passRequest = function () {
+            var ret = this.fn.apply(this, arguments)
+            if (ret === 'nextSuccessor') {
+              return this.successor && this.successor.passRequest.apply(this.successor, arguments)
+            }
+
+            return ret
+          }
+
+          var chainOrder500 = new Chain(order500)
+          var chainOrder200 = new Chain(order200)
+          var chainOrderNormal = new Chain(orderNormal)
+
+          // 指定执行顺序
+          chainOrder500.setNextSuccessor(chainOrder200)
+          chainOrder200.setNextSuccessor(chainOrderNormal)
+
+          // 额外增加300的
+          var order300 = function (orderType, pay, stock) {
+            if (orderType === 4 && pay === true) {
+              console.log('300定金预购， 得到70元优惠券')
+            } else {
+              return 'nextSuccessor'
+            }
+          }
+
+          var chainOrder300 = new Chain(order300)
+          chainOrder500.setNextSuccessor(chainOrder300)
+          chainOrder300.setNextSuccessor(chainOrder200)
+
+          chainOrder500.passRequest( 1 , true, 500)
+          chainOrder500.passRequest( 1, false, 500 )
+          chainOrder500.passRequest( 4, true, 500 )
+          chainOrder500.passRequest( 3, false, 500 )
+          chainOrder500.passRequest( 1, false, 0 );
+        }())
+
+        ;(function () {
+          var Chain = function (fn) {
+            this.fn = fn
+            this.successor = null
+          }
+
+          Chain.prototype.setNextSuccessor = function (successor) {
+            return this.successor = successor
+          }
+
+          Chain.prototype.passRequest = function () {
+            var ret = this.fn.apply(this, arguments)
+            if (ret === 'nextSuccessor') {
+              return this.successor && this.successor.passRequest.apply(this.successor, arguments)
+            }
+
+            return ret
+          }
+
+          Chain.prototype.next = function () {
+            return this.successor && this.successor.passRequest.apply(this.successor, arguments)
+          }
+          //  异步职责链
+          var fn1  = new Chain(function () {
+            console.log(1)
+            return 'nextSuccessor'
+          })
+
+          var fn2  = new Chain(function () {
+            console.log(2)
+            var self = this
+            setTimeout(function () {
+              self.next()
+            }, 1000)
+          })
+
+          var fn3  = new Chain(function () {
+            console.log(3)
+          })
+
+          fn1.setNextSuccessor(fn2).setNextSuccessor(fn3)
+          fn1.passRequest()
+        }())
+      </pre>
     </pre>
     <script type="text/javascript">
       'use strict'
-      var order500 = function (orderType, pay, stock) {
-        if (orderType === 1 && pay === true) {
-          console.log('500定金预购， 得到100元优惠券')
-        } else {
-          order200(orderType, pay, stock)
+      ;(function () {
+        var order500 = function (orderType, pay, stock) {
+          if (orderType === 1 && pay === true) {
+            console.log('500定金预购， 得到100元优惠券')
+          } else {
+            order200(orderType, pay, stock)
+          }
         }
-      }
 
-      var order200 = function (orderType, pay, stock) {
-        if (orderType === 2 && pay === true) {
-          console.log('200定金预购， 得到50元优惠券')
-        } else {
-          orderNormal(orderType, pay, stock)
+        var order200 = function (orderType, pay, stock) {
+          if (orderType === 2 && pay === true) {
+            console.log('200定金预购， 得到50元优惠券')
+          } else {
+            orderNormal(orderType, pay, stock)
+          }
         }
-      }
 
-      var orderNormal = function (orderType, pay, stock) {
-        if (stock > 0) {
-          console.log('普通购买， 无优惠券')
-        } else {
-          console.log('手机库存不足')
+        var orderNormal = function (orderType, pay, stock) {
+          if (stock > 0) {
+            console.log('普通购买， 无优惠券')
+          } else {
+            console.log('手机库存不足')
+          }
         }
-      }
 
-      order500( 1 , true, 500)
-      order500( 1, false, 500 )
-      order500( 2, true, 500 )
-      order500( 3, false, 500 )
-      order500( 3, false, 0 );
+        order500( 1 , true, 500)
+        order500( 1, false, 500 )
+        order500( 2, true, 500 )
+        order500( 3, false, 500 )
+        order500( 3, false, 0 );
+      }())
+
+      ;(function () {
+        console.log('next')
+        var order500 = function (orderType, pay, stock) {
+          if (orderType === 1 && pay === true) {
+            console.log('500定金预购， 得到100元优惠券')
+          } else {
+            return 'nextSuccessor'
+          }
+        }
+
+        var order200 = function (orderType, pay, stock) {
+          if (orderType === 2 && pay === true) {
+            console.log('200定金预购， 得到50元优惠券')
+          } else {
+            return 'nextSuccessor'
+          }
+        }
+
+        var orderNormal = function (orderType, pay, stock) {
+          if (stock > 0) {
+            console.log('普通购买， 无优惠券')
+          } else {
+            console.log('手机库存不足')
+          }
+        }
+
+        var Chain = function (fn) {
+          this.fn = fn
+          this.successor = null
+        }
+
+        Chain.prototype.setNextSuccessor = function (successor) {
+          return this.successor = successor
+        }
+
+        Chain.prototype.passRequest = function () {
+          var ret = this.fn.apply(this, arguments)
+          if (ret === 'nextSuccessor') {
+            return this.successor && this.successor.passRequest.apply(this.successor, arguments)
+          }
+
+          return ret
+        }
+
+        var chainOrder500 = new Chain(order500)
+        var chainOrder200 = new Chain(order200)
+        var chainOrderNormal = new Chain(orderNormal)
+
+        // 指定执行顺序
+        chainOrder500.setNextSuccessor(chainOrder200)
+        chainOrder200.setNextSuccessor(chainOrderNormal)
+
+        // 额外增加300的
+        var order300 = function (orderType, pay, stock) {
+          if (orderType === 4 && pay === true) {
+            console.log('300定金预购， 得到70元优惠券')
+          } else {
+            return 'nextSuccessor'
+          }
+        }
+
+        var chainOrder300 = new Chain(order300)
+        chainOrder500.setNextSuccessor(chainOrder300)
+        chainOrder300.setNextSuccessor(chainOrder200)
+
+        chainOrder500.passRequest( 1 , true, 500)
+        chainOrder500.passRequest( 1, false, 500 )
+        chainOrder500.passRequest( 4, true, 500 )
+        chainOrder500.passRequest( 3, false, 500 )
+        chainOrder500.passRequest( 1, false, 0 );
+      }())
+
+      ;(function () {
+        var Chain = function (fn) {
+          this.fn = fn
+          this.successor = null
+        }
+
+        Chain.prototype.setNextSuccessor = function (successor) {
+          return this.successor = successor
+        }
+
+        Chain.prototype.passRequest = function () {
+          var ret = this.fn.apply(this, arguments)
+          if (ret === 'nextSuccessor') {
+            return this.successor && this.successor.passRequest.apply(this.successor, arguments)
+          }
+
+          return ret
+        }
+
+        Chain.prototype.next = function () {
+          return this.successor && this.successor.passRequest.apply(this.successor, arguments)
+        }
+        //  异步职责链
+        var fn1  = new Chain(function () {
+          console.log(1)
+          return 'nextSuccessor'
+        })
+
+        var fn2  = new Chain(function () {
+          console.log(2)
+          var self = this
+          setTimeout(function () {
+            self.next()
+          }, 1000)
+        })
+
+        var fn3  = new Chain(function () {
+          console.log(3)
+        })
+
+        fn1.setNextSuccessor(fn2).setNextSuccessor(fn3)
+        fn1.passRequest()
+      }())
+
     </script>
   </body>
 </html>
