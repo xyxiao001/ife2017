@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <title>视频播放弹幕演示</title>
+    <style type="text/css">
+      * {
+        margin: 0;
+        padding: 0;
+      }
+
+      .video {
+        position: relative;
+        width: 860px;
+        max-width: 100%;
+        margin: 100px auto;
+      }
+
+      .video video {
+        max-width: 100%;
+        background-color: black;
+        outline: 1px solid #eee;
+      }
+
+      .video video:-webkit-full-screen {
+        /*确保视频全屏的时候能够显示弹幕*/
+        z-index: 10!important;
+      }
+
+      .video canvas {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: calc(100% - 40px);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="video">
+      <video id="test1" src="http://devtest.qiniudn.com/%E8%8B%A5%E8%83%BD%E7%BB%BD%E6%94%BE%E5%85%89%E8%8A%92.mp4" controls></video>
+      <canvas id="canvas" width="300" height="300"></canvas>
+    </div>
+    <script src="https://cdn.bootcss.com/babel-polyfill/7.0.0-alpha.20/polyfill.js"></script>
+    <script src="./barrage.js"></script>
+    <script type="text/javascript">
+      //布局
+      var video = document.querySelector('#test1')
+      var canvas = document.querySelector('#canvas')
+      // 初始化弹幕插件
+      // 传入三个参数 video   canvas   和 默认配置(可选)
+      var options = {}
+      options.data = [
+        {
+          value: '我是不动的',
+          color: 'red',
+          time: 1, // 单位秒
+          speed: 0
+        },
+        {
+          value: '我是夜喵， 第二',
+          time: 1,
+          speed: 2
+        },
+        {
+          value: '我是阿猫， 我第三',
+          time: 3,
+          speed: 2
+        }
+      ]
+      var username = ['夜喵', '阿夜', '清真', '铲铲', '丹丹']
+
+      var text = [
+        '你不会走的', '你不是升到4200了吗', '我来了', '好了好了，我知道了', '666', '2333', 'qqq', '滴滴滴', '你变绿了',
+        'zzzz', '我不可能第三', '头图好丑'
+      ]
+      var color = ['#ffffff', '#fff143', '#bddd22', '#ff2d51', '#3eede7', '#1685a9', '#f47983', '#574266', '#bacac6']
+      var time = 270
+      var barrage = new Barrage(video, canvas, options)
+      for (let i = 0; i < 500; i++ ) {
+        // 随机生成1000条弹幕 时间随机
+        barrage.add({
+          value: username[~~((username.length - 1) * Math.random())] + ' : ' +  text[~~((text.length - 1) * Math.random())],
+          time: ~~(time * Math.random()),
+          speed: ~~(4 * Math.random()),
+          color: color[~~((color.length - 1) * Math.random())]
+        })
+      }
+    </script>
+  </body>
+</html>
