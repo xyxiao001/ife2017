@@ -14,7 +14,7 @@
         position: relative;
         width: 860px;
         max-width: 100%;
-        margin: 100px auto;
+        margin: 100px auto 0 auto;
       }
 
       .video video {
@@ -35,12 +35,34 @@
         width: 100%;
         height: calc(100% - 40px);
       }
+
+      .add {
+        position: relative;
+        width: 860px;
+        max-width: 100%;
+        margin: 0 auto;
+      }
+
+      p {
+        line-height: 40px;
+      }
     </style>
   </head>
   <body>
     <div class="video">
       <video id="test1" src="http://devtest.qiniudn.com/%E8%8B%A5%E8%83%BD%E7%BB%BD%E6%94%BE%E5%85%89%E8%8A%92.mp4" controls></video>
       <canvas id="canvas" width="300" height="300"></canvas>
+    </div>
+    <div class="add">
+      <p>
+          内容: <input type="text" maxLength="30" placeholder="写点什么吧?" id="content">
+      </p>
+      <p>
+          颜色: <input type="color" id="color" value="#ffffff">
+      </p>
+      <p>
+          <input type="button" value="发送" id="add">
+      </p>
     </div>
     <script src="https://cdn.bootcss.com/babel-polyfill/7.0.0-alpha.20/polyfill.js"></script>
     <script src="./barrage.js"></script>
@@ -84,9 +106,26 @@
           value: username[~~((username.length - 1) * Math.random())] + ' : ' +  text[~~((text.length - 1) * Math.random())],
           time: ~~(time * Math.random()),
           speed: ~~(4 * Math.random()),
+          fontSize: ~~(2 * Math.random()) + 16,
           color: color[~~((color.length - 1) * Math.random())]
         })
       }
+
+      var addButton = document.querySelector('#add')
+      addButton.addEventListener('click', () => {
+        var val = document.querySelector('#content').value
+        if (val.length === 0) {
+          alert('请输入点内容')
+        }
+        barrage.add({
+          value: val,
+          time: barrage.time,
+          speed: ~~(4 * Math.random()),
+          fontSize: ~~(2 * Math.random()) + 16,
+          color: document.querySelector('#color').value
+        })
+        document.querySelector('#content').value = ''
+      })
     </script>
   </body>
 </html>
