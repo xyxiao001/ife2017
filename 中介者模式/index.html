@@ -1,66 +1,67 @@
 <!DOCTYPE html>
 <html>
-  <head>
+
+<head>
     <meta charset="utf-8">
     <title>中介者模式</title>
-  </head>
-  <style media="screen">
+</head>
+<style media="screen">
     pre {
-      font-size: 16px;
+        font-size: 16px;
     }
-  </style>
-  <body>
+</style>
+
+<body>
     <script>
-    'use strict'
-     // 利用中介者模式来改造泡泡堂玩法游戏
-     function Player(name, teamColor) {
-       this.name = name // 玩家名字
-       this.teamColor = teamColor // 玩家队伍颜色
-       this.state = 'alive' // 玩家生存状态
-     }
+        'use strict'
+        // 利用中介者模式来改造泡泡堂玩法游戏
+        function Player(name, teamColor) {
+            this.name = name // 玩家名字
+            this.teamColor = teamColor // 玩家队伍颜色
+            this.state = 'alive' // 玩家生存状态
+        }
 
-     Player.prototype.win = function () {
-       console.log(this.name + 'won')
-     }
+        Player.prototype.win = function() {
+            console.log(this.name + 'won')
+        }
 
-     Player.prototype.lose = function () {
-       console.log(this.name + 'lost')
-     }
+        Player.prototype.lose = function() {
+            console.log(this.name + 'lost')
+        }
 
-     Player.prototype.die = function () {
-       this.state = 'dead'
-       // 通知中介者玩家死亡
-       playerDirector.reciveMessage('playerDead', this)
-     }
+        Player.prototype.die = function() {
+            this.state = 'dead'
+            // 通知中介者玩家死亡
+            playerDirector.reciveMessage('playerDead', this)
+        }
 
-     Player.prototype.remove = function () {
-       // 通知中介者移出玩家
-       playerDirector.reciveMessage('removePlayer', this)
-     }
+        Player.prototype.remove = function() {
+            // 通知中介者移出玩家
+            playerDirector.reciveMessage('removePlayer', this)
+        }
 
-     // 玩家更换队伍
-     Player.prototype.changeTeam = function (color) {
-       playerDirector.reciveMessage('changeTeam', this, color)
-     }
+        // 玩家更换队伍
+        Player.prototype.changeTeam = function(color) {
+            playerDirector.reciveMessage('changeTeam', this, color)
+        }
 
-     var playerFactory = function (name, teamColor) {
-       var newPlayer = new Player(name, teamColor)
-       playerDirector.reciveMessage('addPlayer', newPlayer)
-       return newPlayer
-     }
+        var playerFactory = function(name, teamColor) {
+            var newPlayer = new Player(name, teamColor)
+            playerDirector.reciveMessage('addPlayer', newPlayer)
+            return newPlayer
+        }
 
-     var playerDirector = (function () {
-       var players = {} // 保存玩家
-       var operations = {} // 方法集合
+        var playerDirector = (function() {
+            var players = {} // 保存玩家
+            var operations = {} // 方法集合
 
-       operations.addPlayer = function (player) {
-         var teamColor = player.teamColor
-         var teamPlayers = players[teamColor] || []
-         
-       }
-
-
-     })()
+            operations.addPlayer = function(player) {
+                var teamColor = player.teamColor
+                var teamPlayers = players[teamColor] || []
+                players[teamColor].push(player)
+            }
+        })()
     </script>
-  </body>
+</body>
+
 </html>
